@@ -91,6 +91,7 @@ if SERVER then
 		if ply:GetSubRole() == ROLE_SERIALKILLER then
 			ply:StripWeapon("weapon_zm_improvised")
 			ply:Give("weapon_ttt_totemknife")
+			ply:GiveItem(EQUIP_RADAR)
 		end
 	end)
 end
