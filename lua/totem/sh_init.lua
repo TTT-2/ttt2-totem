@@ -1,7 +1,7 @@
 TTT2Totem = {}
 
 hook.Add("TTTPlayerSpeedModifier", "TTT2TotemSpeed", function(ply)
-	if (GetRoundState() == ROUND_ACTIVE or GetRoundState() == ROUND_POST) and TTT2Vote.AnyTotems then
+	if (GetRoundState() == ROUND_ACTIVE or GetRoundState() == ROUND_POST) and TTT2Totem.AnyTotems then
 		local Totem = ply:GetTotem()
 
 		if IsValid(Totem) then
@@ -13,6 +13,8 @@ hook.Add("TTTPlayerSpeedModifier", "TTT2TotemSpeed", function(ply)
 			elseif distance > 1000 and distance < 2500 then
 				return 1
 			end
+		elseif not ply.PlacedTotem then
+			return 0.5
 		else
 			return 0.75
 		end

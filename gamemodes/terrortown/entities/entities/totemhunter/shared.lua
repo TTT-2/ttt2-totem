@@ -5,20 +5,48 @@ if SERVER then
 	resource.AddFile("materials/vgui/ttt/sprite_thunt.vmt")
 end
 
+local tmp = { -- first param is access for ROLES array => ROLES["TOTEMHUNTER"] or ROLES.TOTEMHUNTER or TOTEMHUNTER
+	color = Color(255, 128, 0, 255), -- ...
+	dkcolor = Color(255, 133, 5, 255), -- ...
+	bgcolor = Color(255, 128, 0, 200), -- ...
+	name = "totemhunter", -- just a unique name for the script to determine
+	abbr = "thunt", -- abbreviation
+	defaultTeam = TEAM_TRAITOR, -- the team name: roles with same team name are working together
+	defaultEquipment = SPECIAL_EQUIPMENT, -- here you can set up your own default equipment
+	surviveBonus = 0.5, -- bonus multiplier for every survive while another player was killed
+	scoreKillsMultiplier = 5, -- multiplier for kill of player of another team
+	scoreTeamKillsMultiplier = -16 -- multiplier for teamkill
+}
+
+if SERVER then
+	tmp.CustomRadar = function(ply) -- Custom Radar function
+		if TTT2Totem.AnyTotems then
+			local targets = {}
+			local scan_ents = ents.FindByClass("ttt_totem")
+
+			for _, t in pairs(scan_ents) do
+				local pos = t:LocalToWorld(t:OBBCenter())
+
+				pos.x = math.Round(pos.x)
+				pos.y = math.Round(pos.y)
+				pos.z = math.Round(pos.z) - 100
+
+				local owner = t:GetOwner()
+				if owner ~= ply and not owner:HasTeam(TEAM_TRAITOR) then
+					table.insert(targets, {role = -1, pos = pos})
+				end
+			end
+
+			return targets
+		else
+			return false
+		end
+	end
+end
+
 -- important to add roles with this function,
 -- because it does more than just access the array ! e.g. updating other arrays
-InitCustomRole("TOTEMHUNTER", { -- first param is access for ROLES array => ROLES["TOTEMHUNTER"] or ROLES.TOTEMHUNTER or TOTEMHUNTER
-		color = Color(255, 128, 0, 255), -- ...
-		dkcolor = Color(255, 133, 5, 255), -- ...
-		bgcolor = Color(255, 128, 0, 200), -- ...
-		name = "totemhunter", -- just a unique name for the script to determine
-		abbr = "thunt", -- abbreviation
-		defaultTeam = TEAM_TRAITOR, -- the team name: roles with same team name are working together
-		defaultEquipment = SPECIAL_EQUIPMENT, -- here you can set up your own default equipment
-		surviveBonus = 0.5, -- bonus multiplier for every survive while another player was killed
-		scoreKillsMultiplier = 5, -- multiplier for kill of player of another team
-		scoreTeamKillsMultiplier = -16 -- multiplier for teamkill
-	}, {
+InitCustomRole("TOTEMHUNTER", tmp, {
 		pct = 0.15, -- necessary: percentage of getting this role selected (per player)
 		maximum = 1, -- maximum amount of roles in a round
 		minPlayers = 6, -- minimum amount of players until this role is able to get selected
@@ -57,27 +85,12 @@ hook.Add("TTT2FinishedLoading", "TotemhunterInitT", function()
 	end
 end)
 
---[[
-TODO give on select: "weapon_ttt_totemknife"
-
-function(ply) -- Custom Radar function
-	if TTT2Totem.AnyTotems then
-		local targets = {}
-		local scan_ents = ents.FindByClass("ttt_totem")
-		for k,t in pairs(scan_ents) do
-		    local pos = t:LocalToWorld(t:OBBCenter())
-
-	    	pos.x = math.Round(pos.x)
-	    	pos.y = math.Round(pos.y)
-	    	pos.z = math.Round(pos.z) - 100
-
-	    	local owner = t:GetOwner()
-	    	if owner != ply and !owner:IsEvil() then
-	      	table.insert(targets, {role= 16, pos=pos})
-	    	end
-	  	end
-	return targets
-else
-	return false
+if SERVER then
+	-- is called if the role has been selected in the normal way of team setup
+	hook.Add("TTT2RoleTypeSet", "UpdateSerialRoleSelect", function(ply)
+		if ply:GetSubRole() == ROLE_SERIALKILLER then
+			ply:StripWeapon("weapon_zm_improvised")
+			ply:Give("weapon_ttt_totemknife")
+		end
+	end)
 end
-]]--

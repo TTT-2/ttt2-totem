@@ -1,7 +1,8 @@
-TTTVote.AnyTotems = true
+TTT2Totem.AnyTotems = true
 
-util.AddNetworkString("TTTTotem")
-util.AddNetworkString("TTTVotePlaceTotem")
+util.AddNetworkString("TTT2Totem")
+util.AddNetworkString("TTT2TotemPlaceTotem")
+util.AddNetworkString("TTT2ClientInitTotem")
 
 function PlaceTotem(len, sender)
 	local ply = sender
@@ -9,7 +10,7 @@ function PlaceTotem(len, sender)
 	if not IsValid(ply) or not ply:IsTerror() then return end
 
 	if not ply.CanSpawnTotem or IsValid(ply:GetNWEntity("Totem", NULL)) or ply.PlaceTotem then
-		net.Start("TTTTotem")
+		net.Start("TTT2Totem")
 		net.WriteInt(1, 8)
 		net.Send(ply)
 
@@ -17,7 +18,7 @@ function PlaceTotem(len, sender)
 	end
 
 	if not ply:OnGround() then
-		net.Start("TTTTotem")
+		net.Start("TTT2Totem")
 		net.WriteInt(2, 8)
 		net.Send(ply)
 
@@ -38,7 +39,7 @@ function PlaceTotem(len, sender)
 
 			ply:SetNWEntity("Totem", totem)
 
-			net.Start("TTTTotem")
+			net.Start("TTT2Totem")
 			net.WriteInt(3, 8)
 			net.Send(ply)
 
@@ -63,7 +64,6 @@ end
 local function DestroyTotem(ply)
 	if GetRoundState() == ROUND_ACTIVE then
 		ply.CanSpawnTotem = false
-		ply.TotemSuffer = 0
 
 		TotemUpdate()
 	end
@@ -84,7 +84,7 @@ function TotemUpdate()
 		else
 			TTT2Totem.AnyTotems = false
 
-			net.Start("TTTTotem")
+			net.Start("TTT2Totem")
 			net.WriteInt(8, 8)
 			net.Broadcast()
 
@@ -105,34 +105,6 @@ function TotemUpdate()
 	end
 end
 
-local function TotemSuffer()
-	if GetRoundState() == ROUND_ACTIVE and TTT2Totem.AnyTotems then
-		for _, v in ipairs(player.GetAll()) do
-			if v:IsTerror() and not v.PlacedTotem and v.TotemSuffer then
-				if v.TotemSuffer == 0 then
-					v.TotemSuffer = CurTime() + 10
-					v.DamageNotified = false
-				elseif v.TotemSuffer <= CurTime() then
-					if not v.DamageNotified then
-						net.Start("TTTTotem")
-						net.WriteInt(6, 8)
-						net.Send(v)
-
-						v.DamageNotified = true
-					end
-
-					v:TakeDamage(1)
-
-					v.TotemSuffer = CurTime() + 0.2
-				end
-			elseif v:IsTerror() and (v.PlacedTotem or not v.TotemSuffer) then
-				v.TotemSuffer = 0
-				v.DamageNotified = false
-			end
-		end
-	end
-end
-
 function GiveTotemHunterCredits(ply, totem)
 	LANG.Msg(ply, "credit_h_all", {num = 1})
 
@@ -146,7 +118,6 @@ local function ResetTotems()
 
 		v:SetNWEntity("Totem", NULL)
 
-		v.TotemSuffer = 0
 		v.DamageNotified = false
 		v.totemuses = 0
 	end
@@ -154,27 +125,21 @@ local function ResetTotems()
 	TTT2Totem.AnyTotems = true
 end
 
-local function ResetSuffer()
-	for _, v in ipairs(player.GetAll()) do
-		v.TotemSuffer = 0
-	end
-end
-
 local function TotemInit(ply)
+	net.Start("TTT2ClientInitTotem")
+	net.Send(ply)
+
 	ply.CanSpawnTotem = true
 	ply.PlacedTotem = false
 
 	ply:SetNWEntity("Totem", NULL)
 
-	ply.TotemSuffer = 0
 	ply.DamageNotified = false
 	ply.totemuses = 0
 end
 
-hook.Add("PlayerInitialSpawn", "TTTTotemInit", TotemInit)
-hook.Add("TTTPrepareRound", "ResetValues", ResetTotems)
-hook.Add("PlayerDeath", "TTTDestroyTotem", DestroyTotem)
-hook.Add("Think", "TotemSuffer", TotemSuffer)
-hook.Add("TTTBeginRound", "TTTTotemSync", TotemUpdate)
-hook.Add("TTTBeginRound", "TTTTotemResetSuffer", ResetSuffer)
-hook.Add("PlayerDisconnected", "TTTTotemSync", TotemUpdate)
+hook.Add("PlayerInitialSpawn", "TTT2TotemInit", TotemInit)
+hook.Add("TTTPrepareRound", "TTT2ResetValues", ResetTotems)
+hook.Add("PlayerDeath", "TTT2DestroyTotem", DestroyTotem)
+hook.Add("TTTBeginRound", "TTT2TotemSync", TotemUpdate)
+hook.Add("PlayerDisconnected", "TTT2TotemSync", TotemUpdate)

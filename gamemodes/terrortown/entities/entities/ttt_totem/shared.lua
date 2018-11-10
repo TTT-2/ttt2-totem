@@ -2,9 +2,9 @@ if SERVER then
 	AddCSLuaFile()
 
 	resource.AddFile("models/gamefreak/frenchie/bulkytotem.mdl")
-	resource.AddFile("materials/frenchie/bulkytotem/ed3555af.vmt")
-	resource.AddFile("materials/frenchie/bulkytotem/a4c3dbeb.vmt")
-	resource.AddFile("materials/frenchie/bulkytotem/6348b211.vmt")
+	resource.AddFile("materials/models/frenchie/bulkytotem/ed3555af.vmt")
+	resource.AddFile("materials/models/frenchie/bulkytotem/a4c3dbeb.vmt")
+	resource.AddFile("materials/models/frenchie/bulkytotem/6348b211.vmt")
 end
 
 ENT.Type = "anim"
@@ -46,7 +46,7 @@ function ENT:UseOverride(activator)
 
 		activator.totemuses = activator.totemuses + 1
 
-		net.Start("TTTTotem")
+		net.Start("TTT2Totem")
 		net.WriteInt(4, 8)
 		net.Send(activator)
 
@@ -58,7 +58,7 @@ function ENT:UseOverride(activator)
 			end)
 		end
 	elseif IsValid(activator) and activator:IsTerror() and self:GetOwner() == activator and activator.totemuses >= 2 then
-		net.Start("TTTTotem")
+		net.Start("TTT2Totem")
 		net.WriteInt(7, 8)
 		net.Send(activator)
 	end
@@ -75,7 +75,7 @@ function ENT:OnTakeDamage(dmginfo)
 
 	if (infl:IsPlayer() and infl:IsTotemhunter() or att:IsPlayer() and att:IsTotemhunter()) and infl:GetClass() == "weapon_ttt_totemknife" then
 		if SERVER and owner:IsValid() and att:IsValid() and att:IsPlayer() then
-			net.Start("TTTTotem")
+			net.Start("TTT2Totem")
 			net.WriteInt(5, 8)
 			net.Broadcast()
 		end
@@ -118,7 +118,7 @@ function ENT:FakeDestroy()
 	end
 end
 
-hook.Add("PlayerDisconnected", "TTTTotemDestroy", function(ply)
+hook.Add("PlayerDisconnected", "TTT2TotemDestroy", function(ply)
 	if IsValid(ply:GetTotem()) then
 		ply:GetTotem():FakeDestroy()
 	end
