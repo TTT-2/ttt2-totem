@@ -4,7 +4,11 @@ util.AddNetworkString("TTT2Totem")
 util.AddNetworkString("TTT2TotemPlaceTotem")
 util.AddNetworkString("TTT2ClientInitTotem")
 
+local totem_enabled = CreateConVar("ttt2_totem", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_SERVER_CAN_EXECUTE})
+
 function PlaceTotem(len, sender)
+	if not totem_enabled:GetBool() then return end
+
 	local ply = sender
 
 	if not IsValid(ply) or not ply:IsTerror() then return end
@@ -62,6 +66,8 @@ local function DestroyAllTotems()
 end
 
 local function DestroyTotem(ply)
+	if not totem_enabled:GetBool() then return end
+
 	if GetRoundState() == ROUND_ACTIVE then
 		ply.CanSpawnTotem = false
 
@@ -70,6 +76,8 @@ local function DestroyTotem(ply)
 end
 
 function TotemUpdate()
+	if not totem_enabled:GetBool() then return end
+
 	if GetRoundState() == ROUND_ACTIVE or GetRoundState() == ROUND_POST then
 		local totems = {}
 
@@ -106,7 +114,7 @@ function TotemUpdate()
 end
 
 function GiveTotemHunterCredits(ply, totem)
-	LANG.Msg(ply, "credit_h_all", {num = 1})
+	LANG.Msg(ply, "credit_h_all", {num = 1}) -- TODO localization
 
 	ply:AddCredits(1)
 end
@@ -126,6 +134,8 @@ local function ResetTotems()
 end
 
 local function TotemInit(ply)
+	if not totem_enabled:GetBool() then return end
+
 	net.Start("TTT2ClientInitTotem")
 	net.Send(ply)
 
@@ -143,3 +153,14 @@ hook.Add("TTTPrepareRound", "TTT2ResetValues", ResetTotems)
 hook.Add("PlayerDeath", "TTT2DestroyTotem", DestroyTotem)
 hook.Add("TTTBeginRound", "TTT2TotemSync", TotemUpdate)
 hook.Add("PlayerDisconnected", "TTT2TotemSync", TotemUpdate)
+
+hook.Add("TTTUlxInitRWCVar", "TTTTotemInitRWCVar", function(name)
+	ULib.replicatedWritableCvar("ttt2_totem", "rep_ttt2_totem", GetConVar("ttt2_totem"):GetInt(), true, false, name)
+end)
+
+cvars.AddChangeCallback("ttt2_totem", function(cvar, old, new)
+	if old == "1" and new == "0" then
+		DestroyAllTotems()
+		ResetTotems()
+	end
+end)

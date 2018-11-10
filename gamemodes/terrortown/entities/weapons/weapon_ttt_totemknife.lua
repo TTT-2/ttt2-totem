@@ -79,7 +79,6 @@ function SWEP:PrimaryAttack()
 		self.Owner:SetAnimation(PLAYER_ATTACK1)
 	end
 
-
 	if SERVER and tr.Hit and tr.HitNonWorld and IsValid(hitEnt) and hitEnt:GetClass() == "ttt_totem" then
 		local dmg = DamageInfo()
 		dmg:SetDamage(self.Primary.Damage)

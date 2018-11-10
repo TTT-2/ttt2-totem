@@ -1,4 +1,6 @@
 local function SettingsTab(dtabs)
+	if not GetConVar("ttt2_totem"):GetBool() then return end
+
 	local padding = dtabs:GetPadding()
 	local PANEL = {}
 
