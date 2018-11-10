@@ -87,8 +87,8 @@ end)
 
 if SERVER then
 	-- is called if the role has been selected in the normal way of team setup
-	hook.Add("TTT2RoleTypeSet", "UpdateSerialRoleSelect", function(ply)
-		if ply:GetSubRole() == ROLE_SERIALKILLER then
+	hook.Add("TTT2UpdateSubrole", "UpdateToTotemhunterRole", function(ply, old, new)
+		if new == ROLE_TOTEMHUNTER then
 			ply:StripWeapon("weapon_zm_improvised")
 			ply:Give("weapon_ttt_totemknife")
 			ply:GiveItem(EQUIP_RADAR)

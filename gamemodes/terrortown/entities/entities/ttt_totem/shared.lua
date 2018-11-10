@@ -136,8 +136,8 @@ if CLIENT then
 				draw.SimpleText(e:GetOwner():Nick() .. "' Totem", "TargetID", ScrW() * 0.5 + 1, ScrH() * 0.5 + 41, COLOR_BLACK, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 				draw.SimpleText(e:GetOwner():Nick() .. "' Totem", "TargetID", ScrW() * 0.5, ScrH() * 0.5 + 40, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 			else
-				draw.SimpleText(e:GetOwner():Nick() .. "s Totem", "TargetID", ScrW() * 0.5 + 1, ScrH() * 0.5 + 41, COLOR_BLACK, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-				draw.SimpleText(e:GetOwner():Nick() .. "s Totem", "TargetID", ScrW() * 0.5, ScrH() * 0.5 + 40, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw.SimpleText(e:GetOwner():Nick() .. "'s Totem", "TargetID", ScrW() * 0.5 + 1, ScrH() * 0.5 + 41, COLOR_BLACK, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw.SimpleText(e:GetOwner():Nick() .. "'s Totem", "TargetID", ScrW() * 0.5, ScrH() * 0.5 + 40, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 			end
 		end
 	end)
