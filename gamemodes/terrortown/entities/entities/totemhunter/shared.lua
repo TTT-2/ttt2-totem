@@ -95,3 +95,19 @@ if SERVER then
 		end
 	end)
 end
+
+local function _func(old, new)
+	if old ~= new then
+		if new == "1" then
+			TOTEMHUNTER.notSelectable = false
+		else
+			TOTEMHUNTER.notSelectable = true
+		end
+	end
+end
+
+if SERVER then
+	cvars.AddChangeCallback("ttt2_totem", _func)
+else
+	cvars.AddChangeCallback("rep_ttt2_totem", _func)
+end

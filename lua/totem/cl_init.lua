@@ -1,5 +1,3 @@
-local totem_enabled = CreateConVar("ttt2_totem", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_SERVER_CAN_EXECUTE})
-
 CreateConVar("ttt_totem_auto", "1", {FCVAR_ARCHIVE}, "Soll das Totem automatisch plaziert werden?")
 
 net.Receive("TTT2ClientInitTotem", function()
@@ -7,13 +5,13 @@ net.Receive("TTT2ClientInitTotem", function()
 end)
 
 hook.Add("TTTBeginRound", "TTT2TotemAutomaticPlacement", function()
-	if not totem_enabled:GetBool() or not GetConVar("ttt_totem_auto"):GetBool() then return end
+	if not GetConVar("rep_ttt2_totem"):GetBool() or not GetConVar("ttt_totem_auto"):GetBool() then return end
 
 	LocalPlayer():ConCommand("placetotem")
 end)
 
 function LookUpTotem(ply, cmd, args, argStr)
-	if not totem_enabled:GetBool() then return end
+	if not GetConVar("rep_ttt2_totem"):GetBool() then return end
 
 	if GetRoundState() ~= ROUND_WAIT and LocalPlayer():IsTerror() then
 		net.Start("TTT2TotemPlaceTotem")

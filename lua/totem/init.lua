@@ -4,7 +4,7 @@ util.AddNetworkString("TTT2Totem")
 util.AddNetworkString("TTT2TotemPlaceTotem")
 util.AddNetworkString("TTT2ClientInitTotem")
 
-local totem_enabled = CreateConVar("ttt2_totem", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_SERVER_CAN_EXECUTE})
+local totem_enabled = CreateConVar("ttt2_totem", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
 function PlaceTotem(len, sender)
 	if not totem_enabled:GetBool() then return end
@@ -159,7 +159,7 @@ hook.Add("TTTUlxInitRWCVar", "TTTTotemInitRWCVar", function(name)
 end)
 
 cvars.AddChangeCallback("ttt2_totem", function(cvar, old, new)
-	if old == "1" and new == "0" then
+	if old ~= new and old == "1" and new == "0" then
 		DestroyAllTotems()
 		ResetTotems()
 	end
