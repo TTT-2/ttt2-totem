@@ -41,3 +41,5 @@ luac.out
 
 # custom files
 .ftpconfig
+addon.json
+*.gma

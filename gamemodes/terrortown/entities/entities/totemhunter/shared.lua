@@ -93,20 +93,10 @@ if SERVER then
 			ply:GiveItem(EQUIP_RADAR)
 		end
 	end)
-end
 
-local function _func(old, new)
-	if old ~= new then
-		if new == "1" then
-			TOTEMHUNTER.notSelectable = false
-		else
-			TOTEMHUNTER.notSelectable = true
+	hook.Add("TTT2RoleNotSelectable", "TTT2TotemDisableTotemhunter", function(roleData)
+		if roleData == TOTEMHUNTER and not GetConVar("ttt2_totem"):GetBool() then
+			return true
 		end
-	end
-end
-
-if SERVER then
-	cvars.AddChangeCallback("ttt2_totem", _func)
-else
-	cvars.AddChangeCallback("rep_ttt2_totem", _func)
+	end)
 end
