@@ -99,4 +99,18 @@ if SERVER then
 			return true
 		end
 	end)
+
+	local oldValue
+
+	hook.Add("TTT2RoleVoteWinner", "TTT2ThuntEnableTotem", function(role)
+		local cvar = GetConVar("ttt2_totem")
+
+		oldValue = tostring(cvar:GetInt())
+
+		if role == ROLE_TOTEMHUNTER and not cvar:GetBool() then
+			RunConsoleCommand("ttt2_totem", "1")
+		else
+			RunConsoleCommand("ttt2_totem", oldValue)
+		end
+	end)
 end
