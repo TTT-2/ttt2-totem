@@ -68,10 +68,10 @@ end
 local function DestroyTotem(ply)
 	if not totem_enabled:GetBool() then return end
 
-	if GetRoundState() == ROUND_ACTIVE then
-		ply.CanSpawnTotem = false
+	local totem = ply:GetTotem()
 
-		TotemUpdate()
+	if IsValid(totem) then
+		totem:FakeDestroy()
 	end
 end
 
