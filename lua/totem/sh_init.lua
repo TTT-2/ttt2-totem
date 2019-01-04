@@ -1,6 +1,6 @@
 TTT2Totem = {}
 
-hook.Add("TTTPlayerSpeedModifier", "TTT2TotemSpeed", function(ply, slowed, mv)
+hook.Add("TTTPlayerSpeedModifier", "TTT2TotemSpeed", function(ply, _, _, noLag)
 	if (SERVER and not GetConVar("ttt2_totem"):GetBool() or CLIENT and not GetConVar("rep_ttt2_totem"):GetBool()) or not TTT2Totem.AnyTotems then return end
 
 	local rs = GetRoundState()
@@ -25,8 +25,7 @@ hook.Add("TTTPlayerSpeedModifier", "TTT2TotemSpeed", function(ply, slowed, mv)
 			end
 		end
 
-		mv:SetMaxClientSpeed(mv:GetMaxClientSpeed() * mul)
-		mv:SetMaxSpeed(mv:GetMaxSpeed() * mul)
+		noLag[1] = noLag[1] * mul
 	end
 end)
 
