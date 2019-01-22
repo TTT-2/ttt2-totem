@@ -65,16 +65,6 @@ local function DestroyAllTotems()
 	TotemUpdate()
 end
 
-local function DestroyTotem(ply)
-	if not totem_enabled:GetBool() then return end
-
-	local totem = ply:GetTotem()
-
-	if IsValid(totem) then
-		totem:FakeDestroy()
-	end
-end
-
 function TotemUpdate()
 	if not totem_enabled:GetBool() then return end
 
@@ -150,7 +140,6 @@ end
 
 hook.Add("PlayerInitialSpawn", "TTT2TotemInit", TotemInit)
 hook.Add("TTTPrepareRound", "TTT2ResetValues", ResetTotems)
-hook.Add("PlayerDeath", "TTT2DestroyTotem", DestroyTotem)
 hook.Add("TTTBeginRound", "TTT2TotemSync", TotemUpdate)
 hook.Add("PlayerDisconnected", "TTT2TotemSync", TotemUpdate)
 
