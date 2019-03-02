@@ -4,20 +4,18 @@ if SERVER then
 	resource.AddFile("materials/vgui/ttt/dynamic/roles/icon_thunt.vmt")
 end
 
-local tmp = { -- first param is access for ROLES array => ROLES["TOTEMHUNTER"] or ROLES.TOTEMHUNTER or TOTEMHUNTER
-	color = Color(222, 68, 0, 255), -- ...
-	dkcolor = Color(138, 43, 0, 255), -- ...
-	bgcolor = Color(0, 150, 93, 255), -- ...
-	abbr = "thunt", -- abbreviation
-	defaultTeam = TEAM_TRAITOR, -- the team name: roles with same team name are working together
-	defaultEquipment = SPECIAL_EQUIPMENT, -- here you can set up your own default equipment
-	surviveBonus = 0.5, -- bonus multiplier for every survive while another player was killed
-	scoreKillsMultiplier = 5, -- multiplier for kill of player of another team
-	scoreTeamKillsMultiplier = -16 -- multiplier for teamkill
-}
+ROLE.color = Color(222, 68, 0, 255) -- ...
+ROLE.dkcolor = Color(138, 43, 0, 255) -- ...
+ROLE.bgcolor = Color(0, 150, 93, 255) -- ...
+ROLE.abbr = "thunt" -- abbreviation
+ROLE.defaultTeam = TEAM_TRAITOR -- the team name: roles with same team name are working together
+ROLE.defaultEquipment = SPECIAL_EQUIPMENT -- here you can set up your own default equipment
+ROLE.surviveBonus = 0.5 -- bonus multiplier for every survive while another player was killed
+ROLE.scoreKillsMultiplier = 5 -- multiplier for kill of player of another team
+ROLE.scoreTeamKillsMultiplier = -16 -- multiplier for teamkill
 
 if SERVER then
-	tmp.CustomRadar = function(ply) -- Custom Radar function
+	ROLE.CustomRadar = function(ply) -- Custom Radar function
 		if TTT2Totem.AnyTotems then
 			local targets = {}
 			local scan_ents = ents.FindByClass("ttt_totem")
@@ -42,21 +40,23 @@ if SERVER then
 	end
 end
 
--- important to add roles with this function,
--- because it does more than just access the array ! e.g. updating other arrays
-InitCustomRole("TOTEMHUNTER", tmp, {
-		pct = 0.15, -- necessary: percentage of getting this role selected (per player)
-		maximum = 1, -- maximum amount of roles in a round
-		minPlayers = 6, -- minimum amount of players until this role is able to get selected
-		credits = 0, -- the starting credits of a specific role
-		togglable = true, -- option to toggle a role for a client if possible (F1 menu)
-		random = 50,
-		shopFallback = SHOP_FALLBACK_TRAITOR
-})
+ROLE.conVarData = {
+	pct = 0.15, -- necessary: percentage of getting this role selected (per player)
+	maximum = 1, -- maximum amount of roles in a round
+	minPlayers = 6, -- minimum amount of players until this role is able to get selected
+	credits = 0, -- the starting credits of a specific role
+	togglable = true, -- option to toggle a role for a client if possible (F1 menu)
+	random = 50,
+	shopFallback = SHOP_FALLBACK_TRAITOR
+}
 
 -- now link this subrole with its baserole
 hook.Add("TTT2BaseRoleInit", "TTT2ConBRTWithThunt", function()
-	SetBaseRole(TOTEMHUNTER, ROLE_TRAITOR)
+	TOTEMHUNTER:SetBaseRole(ROLE_TRAITOR)
+end)
+
+hook.Add("TTT2RolesLoaded", "AddTotemhunterTeam", function()
+	TOTEMHUNTER.defaultTeam = TEAM_TRAITOR
 end)
 
 -- if sync of roles has finished
@@ -90,6 +90,9 @@ if SERVER then
 			ply:StripWeapon("weapon_zm_improvised")
 			ply:Give("weapon_ttt_totemknife")
 			ply:GiveItem(EQUIP_RADAR)
+		elseif old == ROLE_TOTEMHUNTER then
+			ply:StripWeapon("weapon_ttt_totemknife")
+			ply:Give("weapon_zm_improvised")
 		end
 	end)
 
