@@ -1,7 +1,7 @@
 TTT2Totem = {}
 
 hook.Add("TTTPlayerSpeedModifier", "TTT2TotemSpeed", function(ply, _, _, noLag)
-	if (SERVER and not GetConVar("ttt2_totem"):GetBool() or CLIENT and not GetConVar("rep_ttt2_totem"):GetBool()) or not TTT2Totem.AnyTotems then return end
+	if (SERVER and not GetConVar("ttt2_totem"):GetBool() or CLIENT and not GetGlobalBool("ttt2_totem", false)) or not TTT2Totem.AnyTotems then return end
 
 	local rs = GetRoundState()
 

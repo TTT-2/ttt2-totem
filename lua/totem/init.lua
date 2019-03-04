@@ -6,6 +6,10 @@ util.AddNetworkString("TTT2ClientInitTotem")
 
 local totem_enabled = CreateConVar("ttt2_totem", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
+hook.Add("TTT2SyncGlobals", "TTT2TotemSyncGlobals", function()
+	SetGlobalBool("ttt2_totem", totem_enabled:GetBool())
+end)
+
 function PlaceTotem(len, sender)
 	if not totem_enabled:GetBool() then return end
 
@@ -143,11 +147,13 @@ hook.Add("TTTPrepareRound", "TTT2ResetValues", ResetTotems)
 hook.Add("TTTBeginRound", "TTT2TotemSync", TotemUpdate)
 hook.Add("PlayerDisconnected", "TTT2TotemSync", TotemUpdate)
 
-hook.Add("TTTUlxInitRWCVar", "TTTTotemInitRWCVar", function(name)
+hook.Add("TTTUlxInitCustomCVar", "TTTTotemInitRWCVar", function(name)
 	ULib.replicatedWritableCvar("ttt2_totem", "rep_ttt2_totem", GetConVar("ttt2_totem"):GetInt(), true, false, name)
 end)
 
 cvars.AddChangeCallback("ttt2_totem", function(cvar, old, new)
+	SetGlobalBool("ttt2_totem", totem_enabled:GetBool())
+
 	if old ~= new and old == "1" and new == "0" then
 		DestroyAllTotems()
 		ResetTotems()

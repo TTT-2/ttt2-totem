@@ -5,13 +5,13 @@ net.Receive("TTT2ClientInitTotem", function()
 end)
 
 hook.Add("TTTBeginRound", "TTT2TotemAutomaticPlacement", function()
-	if not GetConVar("rep_ttt2_totem"):GetBool() or not GetConVar("ttt_totem_auto"):GetBool() then return end
+	if not GetGlobalBool("ttt2_totem", false) or not GetConVar("ttt_totem_auto"):GetBool() then return end
 
 	LocalPlayer():ConCommand("placetotem")
 end)
 
 function LookUpTotem(ply, cmd, args, argStr)
-	if not GetConVar("rep_ttt2_totem"):GetBool() then return end
+	if not GetGlobalBool("ttt2_totem", false) then return end
 
 	if GetRoundState() ~= ROUND_WAIT and LocalPlayer():IsTerror() then
 		net.Start("TTT2TotemPlaceTotem")
