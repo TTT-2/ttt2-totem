@@ -38,7 +38,7 @@ function PlaceTotem(len, sender)
 
 		if IsValid(totem) then
 			totem:SetAngles(ply:GetAngles())
-			totem:SetPos(ply:GetPos())
+			totem:SetPos(ply:GetPos() + Vector(0, 0, 18))
 			totem:SetOwner(ply)
 			totem:Spawn()
 

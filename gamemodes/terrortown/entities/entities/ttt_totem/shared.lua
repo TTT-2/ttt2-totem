@@ -1,15 +1,13 @@
 if SERVER then
 	AddCSLuaFile()
 
-	resource.AddFile("models/gamefreak/frenchie/bulkytotem.mdl")
-	resource.AddFile("materials/models/frenchie/bulkytotem/ed3555af.vmt")
-	resource.AddFile("materials/models/frenchie/bulkytotem/a4c3dbeb.vmt")
-	resource.AddFile("materials/models/frenchie/bulkytotem/6348b211.vmt")
+	resource.AddFile("models/entities/ttt2_totem/totem.mdl")
+	resource.AddFile("materials/models/ttt2_totem/Totem.vmt")
 end
 
 ENT.Type = "anim"
 ENT.Base = "base_anim"
-ENT.Model = Model("models/gamefreak/frenchie/bulkytotem.mdl")
+ENT.Model = Model("models/entities/ttt2_totem/totem.mdl")
 ENT.CanUseKey = true
 ENT.CanPickup = true
 
