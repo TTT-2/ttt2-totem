@@ -1,0 +1,21 @@
+-- German
+LANG.AddToLanguage("Deutsch", "totem_already_placed", "Du hast schon ein Totem platziert!")
+LANG.AddToLanguage("Deutsch", "totem_place_ground_needed", "Du musst beim Plazieren deines Totems auf dem Boden stehen!")
+LANG.AddToLanguage("Deutsch", "totem_placed", "Dein Totem wurde erfolgreich platziert!")
+LANG.AddToLanguage("Deutsch", "totem_picked_up", "Du hast dein Totem erfolgreich aufgehoben!")
+LANG.AddToLanguage("Deutsch", "totem_destroyed", "Ein Totem wurde zerstört!")
+LANG.AddToLanguage("Deutsch", "totem_slow", "Du bist nun deutlich langsamer, weil du kein Totem platziert hast!")
+LANG.AddToLanguage("Deutsch", "totem_already_picked_up", "Du hast dein Totem schon 2 mal aufgehoben!")
+LANG.AddToLanguage("Deutsch", "totem_all_destroyed", "Alle Totems wurden zerstört!")
+LANG.AddToLanguage("Deutsch", "totem_auto_desc", "Soll das Totem automatisch plaziert werden?")
+
+-- English
+LANG.AddToLanguage("English", "totem_already_placed", "You already placed a Totem!")
+LANG.AddToLanguage("English", "totem_place_ground_needed", "You need to be grounded to place a Totem!")
+LANG.AddToLanguage("English", "totem_placed", "Totem placed successfully!")
+LANG.AddToLanguage("English", "totem_picked_up", "You picked up your Totem!")
+LANG.AddToLanguage("English", "totem_destroyed", "A Totem was destroyed!")
+LANG.AddToLanguage("English", "totem_slow", "You are now noticably slower, due to your Totem being destroyed!")
+LANG.AddToLanguage("English", "totem_already_picked_up", "You already picked up your Totem twice!")
+LANG.AddToLanguage("English", "totem_all_destroyed", "All Totems have been destroyed!")
+LANG.AddToLanguage("English", "totem_auto_desc", "Should the system try to place the Totem automaticially at round start?")

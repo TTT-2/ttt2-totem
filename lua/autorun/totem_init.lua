@@ -4,6 +4,7 @@ if SERVER then
 	AddCSLuaFile("totem/cl_init.lua")
 
 	AddCSLuaFile("totem/client/cl_menu.lua")
+	AddCSLuaFile("totem/client/cl_lang.lua")
 end
 
 include("totem/sh_init.lua")

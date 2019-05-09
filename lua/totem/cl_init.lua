@@ -1,4 +1,8 @@
-CreateConVar("ttt_totem_auto", "1", {FCVAR_ARCHIVE}, "Soll das Totem automatisch plaziert werden?")
+local GetTranslation = LANG.GetTranslation
+
+include("totem/client/cl_lang.lua")
+
+CreateConVar("ttt_totem_auto", "1", {FCVAR_ARCHIVE}, GetTranslation("totem_auto_desc"))
 
 net.Receive("TTT2ClientInitTotem", function()
 	include("totem/client/cl_menu.lua")
@@ -24,25 +28,25 @@ net.Receive("TTT2Totem", function()
 	local bool = net.ReadInt(8)
 
 	if bool == 1 then
-		chat.AddText("TTT2 Totem: ", COLOR_WHITE, "Du hast schon ein Totem platziert!")
+		chat.AddText("TTT2 Totem: ", COLOR_WHITE, GetTranslation("totem_already_placed"))
 	elseif bool == 2 then
-		chat.AddText("TTT2 Totem: ", COLOR_WHITE, "Du musst beim Plazieren deines Totems auf dem Boden stehen!")
+		chat.AddText("TTT2 Totem: ", COLOR_WHITE, GetTranslation("totem_place_ground_needed"))
 	elseif bool == 3 then
-		chat.AddText("TTT2 Totem: ", COLOR_WHITE, "Dein Totem wurde erfolgreich platziert!")
+		chat.AddText("TTT2 Totem: ", COLOR_WHITE, GetTranslation("totem_placed"))
 
 		LocalPlayer().PlacedTotem = true
 	elseif bool == 4 then
-		chat.AddText("TTT2 Totem: ", COLOR_WHITE, "Du hast dein Totem erfolgreich aufgehoben!")
+		chat.AddText("TTT2 Totem: ", COLOR_WHITE, GetTranslation("totem_picked_up"))
 
 		LocalPlayer().PlacedTotem = false
 	elseif bool == 5 then
-		chat.AddText("TTT2 Totem: ", COLOR_WHITE, "Ein Totem wurde zerstört!")
+		chat.AddText("TTT2 Totem: ", COLOR_WHITE, GetTranslation("totem_destroyed"))
 	elseif bool == 6 then
-		chat.AddText("TTT2 Totem: ", COLOR_WHITE, "Du bist nun deutlich langsamer, weil du kein Totem platziert hast!")
+		chat.AddText("TTT2 Totem: ", COLOR_WHITE, GetTranslation("totem_slow"))
 	elseif bool == 7 then
-		chat.AddText("TTT2 Totem: ", COLOR_WHITE, "Du hast dein Totem schon 2 mal aufgehoben!")
+		chat.AddText("TTT2 Totem: ", COLOR_WHITE, GetTranslation("totem_already_picked_up"))
 	elseif bool == 8 then
-		chat.AddText("TTT2 Totem: ", COLOR_WHITE, "Alle Totems wurden zerstört!")
+		chat.AddText("TTT2 Totem: ", COLOR_WHITE, GetTranslation("totem_all_destroyed"))
 	end
 
 	chat.PlaySound()
