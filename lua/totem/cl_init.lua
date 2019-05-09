@@ -4,7 +4,7 @@ net.Receive("TTT2ClientInitTotem", function()
 	include("totem/client/cl_menu.lua")
 end)
 
-hook.Add("TTT2FinishedLoading", "ShinigamiInitT", function()
+hook.Add("TTT2FinishedLoading", "TTT2TotemInitLang", function()
 	if CLIENT then
 		include("totem/client/cl_lang.lua")
 	end
