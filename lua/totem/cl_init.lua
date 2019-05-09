@@ -1,11 +1,13 @@
-local GetTranslation = LANG.GetTranslation
-
-include("totem/client/cl_lang.lua")
-
-CreateConVar("ttt_totem_auto", "1", {FCVAR_ARCHIVE}, GetTranslation("totem_auto_desc"))
+CreateConVar("ttt_totem_auto", "1", {FCVAR_ARCHIVE}, "Should the system try to place the Totem automaticially at round start?")
 
 net.Receive("TTT2ClientInitTotem", function()
 	include("totem/client/cl_menu.lua")
+end)
+
+hook.Add("TTT2FinishedLoading", "ShinigamiInitT", function()
+	if CLIENT then
+		include("totem/client/cl_lang.lua")
+	end
 end)
 
 hook.Add("TTTBeginRound", "TTT2TotemAutomaticPlacement", function()
@@ -26,6 +28,7 @@ concommand.Add("placetotem", LookUpTotem, nil, "Places a Totem", {FCVAR_DONTRECO
 
 net.Receive("TTT2Totem", function()
 	local bool = net.ReadInt(8)
+	local GetTranslation = LANG.GetTranslation
 
 	if bool == 1 then
 		chat.AddText("TTT2 Totem: ", COLOR_WHITE, GetTranslation("totem_already_placed"))
