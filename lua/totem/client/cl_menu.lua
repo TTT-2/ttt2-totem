@@ -14,7 +14,7 @@ local function SettingsTab(dtabs)
 
 	local dguiT = vgui.Create("DForm", dsettings)
 	dguiT:SetName("Totem")
-	dguiT:CheckBox(GetTranslation("totem_auto_desc"), "ttt_totem_auto")
+	dguiT:CheckBox(LANG.GetTranslation("totem_auto_desc"), "ttt_totem_auto")
 
 	dsettings:AddItem(dguiT)
 
