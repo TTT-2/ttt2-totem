@@ -5,9 +5,12 @@ util.AddNetworkString("TTT2TotemPlaceTotem")
 util.AddNetworkString("TTT2ClientInitTotem")
 
 local totem_enabled = CreateConVar("ttt2_totem", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+local walk_speed_enabled = CreateConVar("ttt2_totem_enable_speedmodifier", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
+-- initial global var sync
 hook.Add("TTT2SyncGlobals", "TTT2TotemSyncGlobals", function()
 	SetGlobalBool("ttt2_totem", totem_enabled:GetBool())
+	SetGlobalBool("ttt2_totem_enable_speedmodifier", walk_speed_enabled:GetBool())
 end)
 
 function PlaceTotem(len, sender)
@@ -148,14 +151,18 @@ hook.Add("TTTBeginRound", "TTT2TotemSync", TotemUpdate)
 hook.Add("PlayerDisconnected", "TTT2TotemSync", TotemUpdate)
 
 hook.Add("TTTUlxInitCustomCVar", "TTTTotemInitRWCVar", function(name)
-	ULib.replicatedWritableCvar("ttt2_totem", "rep_ttt2_totem", GetConVar("ttt2_totem"):GetInt(), true, false, name)
+	ULib.replicatedWritableCvar("ttt2_totem", "rep_ttt2_totem", GetConVar("ttt2_totem"):GetBool(), true, false, name)
+	ULib.replicatedWritableCvar("ttt2_totem_enable_speedmodifier", "rep_ttt2_totem_enable_speedmodifier", GetConVar("ttt2_totem_enable_speedmodifier"):GetBool(), true, false, name)
 end)
 
 cvars.AddChangeCallback("ttt2_totem", function(cvar, old, new)
-	SetGlobalBool("ttt2_totem", totem_enabled:GetBool())
+	SetGlobalBool("ttt2_totem", tobool(tonumber(new)))
 
 	if old ~= new and old == "1" and new == "0" then
 		DestroyAllTotems()
 		ResetTotems()
 	end
+end)
+cvars.AddChangeCallback('ttt2_totem_enable_speedmodifier', function(cv, old, new)
+	SetGlobalBool('ttt2_totem_enable_speedmodifier', tobool(tonumber(new)))
 end)

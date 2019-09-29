@@ -56,21 +56,24 @@ net.Receive("TTT2Totem", function()
 end)
 
 --------------------TTT2Totem Module--------------------
-hook.Add("TTTUlxModifySettings", "TTT2TotemModifySettings", function(name)
+hook.Add("TTTUlxModifyAddonSettings", "TTT2TotemModifySettings", function(name)
 	local ttt2tpnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
 	local ttt2tclp = vgui.Create("DCollapsibleCategory", ttt2tpnl)
-	ttt2tclp:SetSize(390, 25)
+	ttt2tclp:SetSize(390, 50)
 	ttt2tclp:SetExpanded(1)
-	ttt2tclp:SetLabel("TTT2 Totem")
+	ttt2tclp:SetLabel("Basic Settings")
 
 	local ttt2tlst = vgui.Create("DPanelList", ttt2tclp)
 	ttt2tlst:SetPos(5, 25)
-	ttt2tlst:SetSize(390, 25)
+	ttt2tlst:SetSize(390, 50)
 	ttt2tlst:SetSpacing(5)
 
-	local ttt2tdh = xlib.makecheckbox{label = "ttt2_totem (def. 1)", repconvar = "rep_ttt2_totem", parent = ttt2tlst}
+	local ttt2tdh = xlib.makecheckbox{label = "Enable Totem? (ttt2_totem) (def. 1)", repconvar = "rep_ttt2_totem", parent = ttt2tlst}
 	ttt2tlst:AddItem(ttt2tdh)
+
+	local ttt2tdh2 = xlib.makecheckbox{label = "ttt2_totem_enable_speedmodifier (def. 1)", repconvar = "rep_ttt2_totem_enable_speedmodifier", parent = ttt2tlst}
+	ttt2tlst:AddItem(ttt2tdh2)
 
 	xgui.hookEvent("onProcessModules", nil, ttt2tpnl.processModules)
 	xgui.addSubModule("TTT2 Totem", ttt2tpnl, nil, name)
