@@ -1,21 +1,18 @@
 if SERVER then
 	AddCSLuaFile()
-
 	resource.AddFile("materials/vgui/ttt/dynamic/roles/icon_thunt.vmt")
 end
 
-ROLE.color = Color(222, 68, 0, 255) -- ...
-ROLE.dkcolor = Color(138, 43, 0, 255) -- ...
-ROLE.bgcolor = Color(0, 150, 93, 255) -- ...
-ROLE.abbr = "thunt" -- abbreviation
-ROLE.surviveBonus = 0.5 -- bonus multiplier for every survive while another player was killed
-ROLE.scoreKillsMultiplier = 5 -- multiplier for kill of player of another team
-ROLE.scoreTeamKillsMultiplier = -16 -- multiplier for teamkill
-
 function ROLE:PreInitialize()
+	self.color = Color(222, 68, 0, 255) -- ...
+	self.dkcolor = Color(138, 43, 0, 255) -- ...
+	self.bgcolor = Color(0, 150, 93, 255) -- ...
+	self.abbr = "thunt" -- abbreviation
+	self.surviveBonus = 0.5 -- bonus multiplier for every survive while another player was killed
+	self.scoreKillsMultiplier = 5 -- multiplier for kill of player of another team
+	self.scoreTeamKillsMultiplier = -16 -- multiplier for teamkill
 	self.defaultTeam = TEAM_TRAITOR -- the team name: roles with same team name are working together
 	self.defaultEquipment = SPECIAL_EQUIPMENT -- here you can set up your own default equipment
-
 	self.conVarData = {
 		pct = 0.15, -- necessary: percentage of getting this role selected (per player)
 		maximum = 1, -- maximum amount of roles in a round
@@ -32,20 +29,20 @@ function ROLE:Initialize()
 
 	if CLIENT then
 		-- setup basic translation !
-		LANG.AddToLanguage("English", TOTEMHUNTER.name, "Totemhunter")
-		LANG.AddToLanguage("English", "info_popup_" .. TOTEMHUNTER.name, [[You are a Totemhunter! Try to destroy some Totems!]])
-		LANG.AddToLanguage("English", "body_found_" .. TOTEMHUNTER.abbr, "This was a Totemhunter...")
-		LANG.AddToLanguage("English", "search_role_" .. TOTEMHUNTER.abbr, "This person was a Totemhunter!")
-		LANG.AddToLanguage("English", "target_" .. TOTEMHUNTER.name, "Totemhunter")
-		LANG.AddToLanguage("English", "ttt2_desc_" .. TOTEMHUNTER.name, [[The Totemhunter is a Traitor (who works together with the other traitors) and the goal is to kill all other roles except the other traitor roles ^^ The Totemhunter is able to destroy the totems of his enemies.]])
+		LANG.AddToLanguage("English", self.name, "Totemhunter")
+		LANG.AddToLanguage("English", "info_popup_" .. self.name, [[You are a Totemhunter! Try to destroy some Totems!]])
+		LANG.AddToLanguage("English", "body_found_" .. self.abbr, "This was a Totemhunter...")
+		LANG.AddToLanguage("English", "search_role_" .. self.abbr, "This person was a Totemhunter!")
+		LANG.AddToLanguage("English", "target_" .. self.name, "Totemhunter")
+		LANG.AddToLanguage("English", "ttt2_desc_" .. self.name, [[The Totemhunter is a Traitor (who works together with the other traitors) and the goal is to kill all other roles except the other traitor roles ^^ The Totemhunter is able to destroy the totems of his enemies.]])
 
 		-- maybe this language as well...
-		LANG.AddToLanguage("Deutsch", TOTEMHUNTER.name, "Totemhunter")
-		LANG.AddToLanguage("Deutsch", "info_popup_" .. TOTEMHUNTER.name, [[Du bist ein Totemhunter! Versuche ein paar Totems zu zerstören!]])
-		LANG.AddToLanguage("Deutsch", "body_found_" .. TOTEMHUNTER.abbr, "Er war ein Totemhunter...")
-		LANG.AddToLanguage("Deutsch", "search_role_" .. TOTEMHUNTER.abbr, "Diese Person war ein Totemhunter!")
-		LANG.AddToLanguage("Deutsch", "target_" .. TOTEMHUNTER.name, "Totemhunter")
-		LANG.AddToLanguage("Deutsch", "ttt2_desc_" .. TOTEMHUNTER.name, [[Der Totemhunter ist ein Verräter (der mit den anderen Verräter-Rollen zusammenarbeitet) und dessen Ziel es ist, alle anderen Rollen (außer Verräter-Rollen) zu töten ^^ Er kann die Totems seiner Feinde zerstören.]])
+		LANG.AddToLanguage("Deutsch", self.name, "Totemhunter")
+		LANG.AddToLanguage("Deutsch", "info_popup_" .. self.name, [[Du bist ein Totemhunter! Versuche ein paar Totems zu zerstören!]])
+		LANG.AddToLanguage("Deutsch", "body_found_" .. self.abbr, "Er war ein Totemhunter...")
+		LANG.AddToLanguage("Deutsch", "search_role_" .. self.abbr, "Diese Person war ein Totemhunter!")
+		LANG.AddToLanguage("Deutsch", "target_" .. self.name, "Totemhunter")
+		LANG.AddToLanguage("Deutsch", "ttt2_desc_" .. self.name, [[Der Totemhunter ist ein Verräter (der mit den anderen Verräter-Rollen zusammenarbeitet) und dessen Ziel es ist, alle anderen Rollen (außer Verräter-Rollen) zu töten ^^ Er kann die Totems seiner Feinde zerstören.]])
 	end
 end
 
