@@ -8,13 +8,50 @@ ROLE.color = Color(222, 68, 0, 255) -- ...
 ROLE.dkcolor = Color(138, 43, 0, 255) -- ...
 ROLE.bgcolor = Color(0, 150, 93, 255) -- ...
 ROLE.abbr = "thunt" -- abbreviation
-ROLE.defaultTeam = TEAM_TRAITOR -- the team name: roles with same team name are working together
-ROLE.defaultEquipment = SPECIAL_EQUIPMENT -- here you can set up your own default equipment
 ROLE.surviveBonus = 0.5 -- bonus multiplier for every survive while another player was killed
 ROLE.scoreKillsMultiplier = 5 -- multiplier for kill of player of another team
 ROLE.scoreTeamKillsMultiplier = -16 -- multiplier for teamkill
 
+function ROLE:PreInitialize()
+	self.defaultTeam = TEAM_TRAITOR -- the team name: roles with same team name are working together
+	self.defaultEquipment = SPECIAL_EQUIPMENT -- here you can set up your own default equipment
+
+	self.conVarData = {
+		pct = 0.15, -- necessary: percentage of getting this role selected (per player)
+		maximum = 1, -- maximum amount of roles in a round
+		minPlayers = 6, -- minimum amount of players until this role is able to get selected
+		credits = 0, -- the starting credits of a specific role
+		togglable = true, -- option to toggle a role for a client if possible (F1 menu)
+		random = 50,
+		shopFallback = SHOP_FALLBACK_TRAITOR
+	}
+end
+
+function ROLE:Initialize()
+	roles.SetBaseRole(self, ROLE_TRAITOR)
+
+	if CLIENT then
+		-- setup basic translation !
+		LANG.AddToLanguage("English", TOTEMHUNTER.name, "Totemhunter")
+		LANG.AddToLanguage("English", "info_popup_" .. TOTEMHUNTER.name, [[You are a Totemhunter! Try to destroy some Totems!]])
+		LANG.AddToLanguage("English", "body_found_" .. TOTEMHUNTER.abbr, "This was a Totemhunter...")
+		LANG.AddToLanguage("English", "search_role_" .. TOTEMHUNTER.abbr, "This person was a Totemhunter!")
+		LANG.AddToLanguage("English", "target_" .. TOTEMHUNTER.name, "Totemhunter")
+		LANG.AddToLanguage("English", "ttt2_desc_" .. TOTEMHUNTER.name, [[The Totemhunter is a Traitor (who works together with the other traitors) and the goal is to kill all other roles except the other traitor roles ^^ The Totemhunter is able to destroy the totems of his enemies.]])
+
+		-- maybe this language as well...
+		LANG.AddToLanguage("Deutsch", TOTEMHUNTER.name, "Totemhunter")
+		LANG.AddToLanguage("Deutsch", "info_popup_" .. TOTEMHUNTER.name, [[Du bist ein Totemhunter! Versuche ein paar Totems zu zerstören!]])
+		LANG.AddToLanguage("Deutsch", "body_found_" .. TOTEMHUNTER.abbr, "Er war ein Totemhunter...")
+		LANG.AddToLanguage("Deutsch", "search_role_" .. TOTEMHUNTER.abbr, "Diese Person war ein Totemhunter!")
+		LANG.AddToLanguage("Deutsch", "target_" .. TOTEMHUNTER.name, "Totemhunter")
+		LANG.AddToLanguage("Deutsch", "ttt2_desc_" .. TOTEMHUNTER.name, [[Der Totemhunter ist ein Verräter (der mit den anderen Verräter-Rollen zusammenarbeitet) und dessen Ziel es ist, alle anderen Rollen (außer Verräter-Rollen) zu töten ^^ Er kann die Totems seiner Feinde zerstören.]])
+	end
+end
+
 if SERVER then
+
+	-- the custom radar for the totemhunter to display all totem positions
 	ROLE.CustomRadar = function(ply) -- Custom Radar function
 		if TTT2Totem.AnyTotems then
 			local targets = {}
@@ -38,52 +75,7 @@ if SERVER then
 			return false
 		end
 	end
-end
 
-ROLE.conVarData = {
-	pct = 0.15, -- necessary: percentage of getting this role selected (per player)
-	maximum = 1, -- maximum amount of roles in a round
-	minPlayers = 6, -- minimum amount of players until this role is able to get selected
-	credits = 0, -- the starting credits of a specific role
-	togglable = true, -- option to toggle a role for a client if possible (F1 menu)
-	random = 50,
-	shopFallback = SHOP_FALLBACK_TRAITOR
-}
-
--- now link this subrole with its baserole
-hook.Add("TTT2BaseRoleInit", "TTT2ConBRTWithThunt", function()
-	TOTEMHUNTER:SetBaseRole(ROLE_TRAITOR)
-end)
-
-hook.Add("TTT2RolesLoaded", "AddTotemhunterTeam", function()
-	TOTEMHUNTER.defaultTeam = TEAM_TRAITOR
-end)
-
--- if sync of roles has finished
-hook.Add("TTT2FinishedLoading", "TotemhunterInitT", function()
-	if CLIENT then
-		-- setup here is not necessary but if you want to access the role data, you need to start here
-		-- setup basic translation !
-		LANG.AddToLanguage("English", TOTEMHUNTER.name, "Totemhunter")
-		LANG.AddToLanguage("English", "info_popup_" .. TOTEMHUNTER.name, [[You are a Totemhunter! Try to destroy some Totems!]])
-		LANG.AddToLanguage("English", "body_found_" .. TOTEMHUNTER.abbr, "This was a Totemhunter...")
-		LANG.AddToLanguage("English", "search_role_" .. TOTEMHUNTER.abbr, "This person was a Totemhunter!")
-		LANG.AddToLanguage("English", "target_" .. TOTEMHUNTER.name, "Totemhunter")
-		LANG.AddToLanguage("English", "ttt2_desc_" .. TOTEMHUNTER.name, [[The Totemhunter is a Traitor (who works together with the other traitors) and the goal is to kill all other roles except the other traitor roles ^^ The Totemhunter is able to destroy the totems of his enemies.]])
-
-		---------------------------------
-
-		-- maybe this language as well...
-		LANG.AddToLanguage("Deutsch", TOTEMHUNTER.name, "Totemhunter")
-		LANG.AddToLanguage("Deutsch", "info_popup_" .. TOTEMHUNTER.name, [[Du bist ein Totemhunter! Versuche ein paar Totems zu zerstören!]])
-		LANG.AddToLanguage("Deutsch", "body_found_" .. TOTEMHUNTER.abbr, "Er war ein Totemhunter...")
-		LANG.AddToLanguage("Deutsch", "search_role_" .. TOTEMHUNTER.abbr, "Diese Person war ein Totemhunter!")
-		LANG.AddToLanguage("Deutsch", "target_" .. TOTEMHUNTER.name, "Totemhunter")
-		LANG.AddToLanguage("Deutsch", "ttt2_desc_" .. TOTEMHUNTER.name, [[Der Totemhunter ist ein Verräter (der mit den anderen Verräter-Rollen zusammenarbeitet) und dessen Ziel es ist, alle anderen Rollen (außer Verräter-Rollen) zu töten ^^ Er kann die Totems seiner Feinde zerstören.]])
-	end
-end)
-
-if SERVER then
 	-- is called if the role has been selected in the normal way of team setup
 	hook.Add("TTT2UpdateSubrole", "UpdateToTotemhunterRole", function(ply, old, new)
 		if new == ROLE_TOTEMHUNTER then
