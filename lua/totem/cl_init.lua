@@ -55,6 +55,14 @@ net.Receive("TTT2Totem", function()
 	chat.PlaySound()
 end)
 
+hook.Add( "PreDrawHalos", "AddTotemHalos", function()
+	local totem = LocalPlayer():GetTotem()
+
+	if totem then
+		halo.Add( { totem }, Color( 0, 255, 0 ), 2, 2, 1, true, true )
+	end
+end )
+
 --------------------TTT2Totem Module--------------------
 hook.Add("TTTUlxModifyAddonSettings", "TTT2TotemModifySettings", function(name)
 	local ttt2tpnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
