@@ -55,11 +55,11 @@ net.Receive("TTT2Totem", function()
 	chat.PlaySound()
 end)
 
-hook.Add( "PreDrawHalos", "AddTotemHalos", function()
+hook.Add( "PreDrawOutlines", "AddTotemOutlines", function()
 	local totem = LocalPlayer():GetTotem()
 
 	if totem then
-		halo.Add( { totem }, Color( 0, 255, 0 ), 2, 2, 1, true, true )
+		outline.Add( { totem }, COLOR_GREEN, OUTLINE_MODE_VISIBLE )
 	end
 end )
 

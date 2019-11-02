@@ -123,20 +123,64 @@ hook.Add("PlayerDisconnected", "TTT2TotemDestroy", function(ply)
 end)
 
 if CLIENT then
-	hook.Add("HUDDrawTargetID", "DrawTotem", function()
+	local TryT
+
+	-- target ID function
+	hook.Add("TTTRenderEntityInfo", "TTT2TotemEntityInfo", function(data, params)
 		local client = LocalPlayer()
-		local e = client:GetEyeTrace().Entity
+		local e = data.ent
+		local owner = e:GetOwner()
 
-		if IsValid(e) and IsValid(e:GetOwner()) and e:GetClass() == "ttt_totem" and (e:GetOwner() == client or client.IsTotemhunter and client:IsTotemhunter()) then
-			local owner = e:GetOwner():Nick()
+		if not IsValid(owner) or not e:GetClass() == "ttt_totem" or data.distance > 100 then return end
 
-			if string.EndsWith(owner, "s") or string.EndsWith(owner, "x") or string.EndsWith(owner, "z") or string.EndsWith(owner, "ß") then
-				draw.SimpleText(e:GetOwner():Nick() .. "' Totem", "TargetID", ScrW() * 0.5 + 1, ScrH() * 0.5 + 41, COLOR_BLACK, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-				draw.SimpleText(e:GetOwner():Nick() .. "' Totem", "TargetID", ScrW() * 0.5, ScrH() * 0.5 + 40, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-			else
-				draw.SimpleText(e:GetOwner():Nick() .. "'s Totem", "TargetID", ScrW() * 0.5 + 1, ScrH() * 0.5 + 41, COLOR_BLACK, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-				draw.SimpleText(e:GetOwner():Nick() .. "'s Totem", "TargetID", ScrW() * 0.5, ScrH() * 0.5 + 40, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		TryT = TryT or LANG.TryTranslation
+		
+		local ownsTotem = client == owner
+		local sameTeam = owner:GetTeam() == client:GetTeam()
+		local isTHunter = client.IsTotemhunter and client:IsTotemhunter()
+		local textTotemOwner = "This is the Totem of another terrorist"
+
+		if isTHunter then
+			local nick = owner:Nick()
+			textTotemOwner = "This is " .. nick .. "'s Totem"
+
+			if string.EndsWith(nick, "s") or string.EndsWith(nick, "x") or string.EndsWith(nick, "z") or string.EndsWith(nick, "ß") then
+				textTotemOwner = "This is " .. nick .. "' Totem"
 			end
+		end
+
+		params.drawInfo = true
+		params.displayInfo.title.text = "Totem"
+
+		params.drawOutline = isTHunter
+		params.outlineColor = not ownsTotem and sameTeam and COLOR_GREEN or COLOR_RED
+
+		params.displayInfo.subtitle.text = textTotemOwner
+
+		if ownsTotem then
+			params.displayInfo.key = input.GetKeyCode(input.LookupBinding("+use"))
+			params.displayInfo.subtitle.text = TryT("target_pickup")
+			params.displayInfo.desc[#params.displayInfo.desc + 1] = {
+				text = "This is your Totem",
+			}
+		elseif TOTEMHUNTER then
+			params.displayInfo.icon[#params.displayInfo.icon + 1] = {
+				material = TOTEMHUNTER.iconMaterial,
+				color = COLOR_WHITE,
+			}
+		end
+
+		if isTHunter and sameTeam and not ownsTotem then
+			params.displayInfo.desc[#params.displayInfo.desc + 1] = {
+				text = "This is a teammate's Totem",
+			}
+		end
+
+		if TOTEMHUNTER and not sameTeam and client:GetActiveWeapon():GetClass() == "weapon_ttt_totemknife" then
+			params.displayInfo.desc[#params.displayInfo.desc + 1] = {
+				text = "Destroy this Totem with your knife!",
+				color = TOTEMHUNTER.color,
+			}
 		end
 	end)
 end
