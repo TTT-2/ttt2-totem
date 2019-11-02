@@ -8,6 +8,10 @@ LANG.AddToLanguage("Deutsch", "totem_slow", "Du bist nun deutlich langsamer, wei
 LANG.AddToLanguage("Deutsch", "totem_already_picked_up", "Du hast dein Totem schon 2 mal aufgehoben!")
 LANG.AddToLanguage("Deutsch", "totem_all_destroyed", "Alle Totems wurden zerstört!")
 LANG.AddToLanguage("Deutsch", "totem_auto_desc", "Soll das Totem automatisch plaziert werden?")
+LANG.AddToLanguage("Deutsch", "totem_other_terrorist", "Dies ist das Totem eines anderen Spielers")
+LANG.AddToLanguage("Deutsch", "totem_own_totem", "Dies ist dein Totem")
+LANG.AddToLanguage("Deutsch", "totem_teammate_totem", "Das ist das Totem eins Teamkollegen")
+LANG.AddToLanguage("Deutsch", "totem_destroy_totem", "Zerstöre dieses Totem mit deinem Messer!")
 
 -- English
 LANG.AddToLanguage("English", "totem_already_placed", "You already placed a Totem!")
@@ -19,3 +23,7 @@ LANG.AddToLanguage("English", "totem_slow", "You are now noticably slower, due t
 LANG.AddToLanguage("English", "totem_already_picked_up", "You already picked up your Totem twice!")
 LANG.AddToLanguage("English", "totem_all_destroyed", "All Totems have been destroyed!")
 LANG.AddToLanguage("English", "totem_auto_desc", "Should the system try to place the Totem automaticially at round start?")
+LANG.AddToLanguage("English", "totem_other_terrorist", "This is the Totem of another terrorist")
+LANG.AddToLanguage("English", "totem_own_totem", "This is your Totem")
+LANG.AddToLanguage("English", "totem_teammate_totem", "This is a teammate's Totem")
+LANG.AddToLanguage("English", "totem_destroy_totem", "Destroy this Totem with your knife!")

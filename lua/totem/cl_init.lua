@@ -13,7 +13,7 @@ end)
 hook.Add("TTTBeginRound", "TTT2TotemAutomaticPlacement", function()
 	if not GetGlobalBool("ttt2_totem", false) or not GetConVar("ttt_totem_auto"):GetBool() then return end
 
-	LocalPlayer():ConCommand("placetotem")
+	LookUpTotem()
 end)
 
 function LookUpTotem(ply, cmd, args, argStr)

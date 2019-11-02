@@ -138,7 +138,7 @@ if CLIENT then
 		local ownsTotem = client == owner
 		local sameTeam = owner:GetTeam() == client:GetTeam()
 		local isTHunter = client.IsTotemhunter and client:IsTotemhunter()
-		local textTotemOwner = "This is the Totem of another terrorist"
+		local textTotemOwner = TryT("totem_other_terrorist")
 
 		if isTHunter then
 			local nick = owner:Nick()
@@ -161,7 +161,7 @@ if CLIENT then
 			params.displayInfo.key = input.GetKeyCode(input.LookupBinding("+use"))
 			params.displayInfo.subtitle.text = TryT("target_pickup")
 			params.displayInfo.desc[#params.displayInfo.desc + 1] = {
-				text = "This is your Totem",
+				text = TryT("totem_own_totem"),
 			}
 		elseif TOTEMHUNTER then
 			params.displayInfo.icon[#params.displayInfo.icon + 1] = {
@@ -172,13 +172,13 @@ if CLIENT then
 
 		if isTHunter and sameTeam and not ownsTotem then
 			params.displayInfo.desc[#params.displayInfo.desc + 1] = {
-				text = "This is a teammate's Totem",
+				text = TryT("totem_teammate_totem"),
 			}
 		end
-
-		if TOTEMHUNTER and not sameTeam and client:GetActiveWeapon():GetClass() == "weapon_ttt_totemknife" then
+		local activeWeapon = client:GetActiveWeapon()
+		if TOTEMHUNTER and not sameTeam and activeWeapon and activeWeapon:GetClass() == "weapon_ttt_totemknife" then
 			params.displayInfo.desc[#params.displayInfo.desc + 1] = {
-				text = "Destroy this Totem with your knife!",
+				text = TryT("totem_destroy_totem"),
 				color = TOTEMHUNTER.color,
 			}
 		end
