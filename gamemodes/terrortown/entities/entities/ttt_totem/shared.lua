@@ -131,10 +131,10 @@ if CLIENT then
 		local e = data.ent
 		local owner = e:GetOwner()
 
-		if not IsValid(owner) or not e:GetClass() == "ttt_totem" or data.distance > 100 then return end
+		if not IsValid(owner) or e:GetClass() ~= "ttt_totem" or data.distance > 100 then return end
 
 		TryT = TryT or LANG.TryTranslation
-		
+
 		local ownsTotem = client == owner
 		local sameTeam = owner:GetTeam() == client:GetTeam()
 		local isTHunter = client.IsTotemhunter and client:IsTotemhunter()
