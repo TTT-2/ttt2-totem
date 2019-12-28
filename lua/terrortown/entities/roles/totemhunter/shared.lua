@@ -59,11 +59,11 @@ if SERVER then
 
 				pos.x = math.Round(pos.x)
 				pos.y = math.Round(pos.y)
-				pos.z = math.Round(pos.z) - 100
+				pos.z = math.Round(pos.z)
 
 				local owner = t:GetOwner()
 				if owner ~= ply and not owner:HasTeam(TEAM_TRAITOR) then
-					table.insert(targets, {role = -1, pos = pos})
+					table.insert(targets, {subrole = -1, pos = pos})
 				end
 			end
 
@@ -78,7 +78,7 @@ if SERVER then
 		if new == ROLE_TOTEMHUNTER then
 			ply:StripWeapon("weapon_zm_improvised")
 			ply:Give("weapon_ttt_totemknife")
-			ply:GiveItem(EQUIP_RADAR)
+			ply:GiveItem("item_ttt_radar")
 		elseif old == ROLE_TOTEMHUNTER then
 			ply:StripWeapon("weapon_ttt_totemknife")
 			ply:Give("weapon_zm_improvised")
