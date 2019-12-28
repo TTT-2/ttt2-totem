@@ -1,7 +1,7 @@
 TTT2Totem = {}
 
 hook.Add("TTTPlayerSpeedModifier", "TTT2TotemSpeed", function(ply, _, _, noLag)
-	if not GetGlobalBool("ttt2_totem", false) or not GetGlobalBool("ttt2_totem_enable_speedmodifier", false) or not TTT2Totem.AnyTotems then return end
+	if not GetGlobalBool("ttt2_totem", false) or not TTT2Totem.AnyTotems then return end
 
 	local rs = GetRoundState()
 
@@ -10,7 +10,7 @@ hook.Add("TTTPlayerSpeedModifier", "TTT2TotemSpeed", function(ply, _, _, noLag)
 
 		if not ply.PlacedTotem then
 			mul = 0.4
-		else
+		elseif GetGlobalBool("ttt2_totem_enable_speedmodifier", true) then
 			local Totem = ply:GetTotem()
 
 			if IsValid(Totem) then
