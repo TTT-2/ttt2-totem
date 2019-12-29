@@ -73,17 +73,17 @@ if SERVER then
 		end
 	end
 
-	-- is called if the role has been selected in the normal way of team setup
-	hook.Add("TTT2UpdateSubrole", "UpdateToTotemhunterRole", function(ply, old, new)
-		if new == ROLE_TOTEMHUNTER then
-			ply:StripWeapon("weapon_zm_improvised")
-			ply:Give("weapon_ttt_totemknife")
-			ply:GiveItem("item_ttt_radar")
-		elseif old == ROLE_TOTEMHUNTER then
-			ply:StripWeapon("weapon_ttt_totemknife")
-			ply:Give("weapon_zm_improvised")
-		end
-	end)
+	-- Give Loadout on respawn and rolechange	
+	function ROLE:GiveRoleLoadout(ply, isRoleChange)
+		ply:GiveEquipmentWeapon("weapon_ttt_totemknife")
+		ply:GiveEquipmentItem("item_ttt_radar")
+	end
+
+	-- Remove Loadout on death and rolechange
+	function ROLE:RemoveRoleLoadout(ply, isRoleChange)
+		ply:StripWeapon("weapon_ttt_totemknife")
+		ply:RemoveEquipmentItem("item_ttt_radar")
+	end
 
 	hook.Add("TTT2RoleNotSelectable", "TTT2TotemDisableTotemhunter", function(roleData)
 		if roleData == TOTEMHUNTER and not GetConVar("ttt2_totem"):GetBool() then
