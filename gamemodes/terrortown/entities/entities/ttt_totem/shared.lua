@@ -123,7 +123,11 @@ hook.Add("PlayerDisconnected", "TTT2TotemDestroy", function(ply)
 end)
 
 if CLIENT then
-	local TryT
+	local TryT = LANG.TryTranslation
+	local GetPT = LANG.GetParamTranslation
+	local key_params = {
+		usekey = Key("+use", "USE"),
+	}
 
 	-- target ID function
 	hook.Add("TTTRenderEntityInfo", "TTT2TotemEntityInfo", function(data, params)
@@ -132,8 +136,6 @@ if CLIENT then
 		local owner = e:GetOwner()
 
 		if not IsValid(owner) or e:GetClass() ~= "ttt_totem" or data.distance > 100 then return end
-
-		TryT = TryT or LANG.TryTranslation
 
 		local ownsTotem = client == owner
 		local sameTeam = owner:GetTeam() == client:GetTeam()
@@ -159,7 +161,7 @@ if CLIENT then
 
 		if ownsTotem then
 			params.displayInfo.key = input.GetKeyCode(input.LookupBinding("+use"))
-			params.displayInfo.subtitle.text = TryT("target_pickup")
+			params.displayInfo.subtitle.text = GetPT("target_pickup", key_params)
 			params.displayInfo.desc[#params.displayInfo.desc + 1] = {
 				text = TryT("totem_own_totem"),
 			}
