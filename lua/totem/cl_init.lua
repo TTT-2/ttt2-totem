@@ -1,4 +1,4 @@
-CreateConVar("ttt_totem_auto", "1", {FCVAR_ARCHIVE}, "Should the system try to place the Totem automaticially after round start?")
+local totem_autoplace = CreateConVar("ttt_totem_auto", "1", {FCVAR_ARCHIVE}, "Should the system try to place the Totem automaticially after round start?")
 
 net.Receive("TTT2ClientInitTotem", function()
 	include("totem/client/cl_menu.lua")
@@ -32,7 +32,7 @@ local function AutoPlace()
 end
 
 hook.Add("TTTBeginRound", "TTT2TotemAutomaticPlacement", function()
-	if not GetGlobalBool("ttt2_totem", false) or not GetConVar("ttt_totem_auto"):GetBool() then return end
+	if not GetGlobalBool("ttt2_totem", false) or not totem_autoplace:GetBool() then return end
 
 	LocalPlayer().PlacedTotem = false
 
