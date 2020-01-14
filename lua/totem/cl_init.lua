@@ -1,4 +1,4 @@
-CreateConVar("ttt_totem_auto", "1", {FCVAR_ARCHIVE}, "Should the system try to place the Totem automaticially at round start?")
+local totem_autoplace = CreateConVar("ttt_totem_auto", "1", {FCVAR_ARCHIVE}, "Should the system try to place the Totem automaticially after round start?")
 
 net.Receive("TTT2ClientInitTotem", function()
 	include("totem/client/cl_menu.lua")
@@ -10,13 +10,7 @@ hook.Add("TTT2FinishedLoading", "TTT2TotemInitLang", function()
 	end
 end)
 
-hook.Add("TTTBeginRound", "TTT2TotemAutomaticPlacement", function()
-	if not GetGlobalBool("ttt2_totem", false) or not GetConVar("ttt_totem_auto"):GetBool() then return end
-
-	LookUpTotem()
-end)
-
-function LookUpTotem(ply, cmd, args, argStr)
+local function LookUpTotem(ply, cmd, args, argStr)
 	if not GetGlobalBool("ttt2_totem", false) then return end
 
 	if GetRoundState() ~= ROUND_WAIT and LocalPlayer():IsTerror() then
@@ -25,6 +19,26 @@ function LookUpTotem(ply, cmd, args, argStr)
 	end
 end
 concommand.Add("placetotem", LookUpTotem, nil, "Places a Totem", {FCVAR_DONTRECORD})
+
+local function AutoPlace()
+	local ply = LocalPlayer()
+
+	if not IsValid(ply) or not ply:IsTerror() or ply.PlacedTotem or GetRoundState() == ROUND_WAIT then
+		timer.Remove("TTT2AutoPlaceTotem")
+		return
+	end
+
+	LookUpTotem()
+end
+
+hook.Add("TTTBeginRound", "TTT2TotemAutomaticPlacement", function()
+	if not GetGlobalBool("ttt2_totem", false) or not totem_autoplace:GetBool() then return end
+
+	LocalPlayer().PlacedTotem = false
+
+	AutoPlace()
+	timer.Create("TTT2AutoPlaceTotem", 2, 0, AutoPlace)
+end)
 
 net.Receive("TTT2Totem", function()
 	local bool = net.ReadInt(8)
