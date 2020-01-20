@@ -23,7 +23,7 @@ concommand.Add("placetotem", LookUpTotem, nil, "Places a Totem", {FCVAR_DONTRECO
 local function AutoPlace()
 	local ply = LocalPlayer()
 
-	if not IsValid(ply) or not ply:IsTerror() or ply.PlacedTotem or GetRoundState() == ROUND_WAIT then
+	if not IsValid(ply) or not ply:IsTerror() or GetRoundState() == ROUND_WAIT or IsValid(ply:GetNWEntity("Totem", NULL)) then
 		timer.Remove("TTT2AutoPlaceTotem")
 		return
 	end
@@ -33,8 +33,6 @@ end
 
 hook.Add("TTTBeginRound", "TTT2TotemAutomaticPlacement", function()
 	if not GetGlobalBool("ttt2_totem", false) or not totem_autoplace:GetBool() then return end
-
-	LocalPlayer().PlacedTotem = false
 
 	AutoPlace()
 	timer.Create("TTT2AutoPlaceTotem", 2, 0, AutoPlace)
@@ -50,12 +48,8 @@ net.Receive("TTT2Totem", function()
 		chat.AddText("TTT2 Totem: ", COLOR_WHITE, GetTranslation("totem_place_ground_needed"))
 	elseif bool == 3 then
 		chat.AddText("TTT2 Totem: ", COLOR_WHITE, GetTranslation("totem_placed"))
-
-		LocalPlayer().PlacedTotem = true
 	elseif bool == 4 then
 		chat.AddText("TTT2 Totem: ", COLOR_WHITE, GetTranslation("totem_picked_up"))
-
-		LocalPlayer().PlacedTotem = false
 	elseif bool == 5 then
 		chat.AddText("TTT2 Totem: ", COLOR_WHITE, GetTranslation("totem_destroyed"))
 	elseif bool == 6 then
@@ -69,7 +63,7 @@ net.Receive("TTT2Totem", function()
 	chat.PlaySound()
 end)
 
-hook.Add( "PreDrawOutlines", "AddTotemOutlines", function()
+hook.Add("PreDrawOutlines", "AddTotemOutlines", function()
 	local totem = LocalPlayer():GetTotem()
 
 	if totem then
