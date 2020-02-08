@@ -10,7 +10,7 @@ hook.Add("TTT2FinishedLoading", "TTT2TotemInitLang", function()
 	end
 end)
 
-local function LookUpTotem(ply, cmd, args, argStr)
+function LookUpTotem(ply, cmd, args, argStr)
 	if not GetGlobalBool("ttt2_totem", false) then return end
 
 	if GetRoundState() ~= ROUND_WAIT and LocalPlayer():IsTerror() then
