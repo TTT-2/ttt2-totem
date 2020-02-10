@@ -130,12 +130,14 @@ if CLIENT then
 	}
 
 	-- target ID function
-	hook.Add("TTTRenderEntityInfo", "TTT2TotemEntityInfo", function(data, params)
+	hook.Add("TTTRenderEntityInfo", "TTT2TotemEntityInfo", function(tData)
 		local client = LocalPlayer()
-		local e = data.ent
+		local e = tData:GetEntity()
 		local owner = e:GetOwner()
 
-		if not IsValid(owner) or e:GetClass() ~= "ttt_totem" or data.distance > 100 then return end
+		if not TOTEMHUNTER then return end
+
+		if not IsValid(owner) or e:GetClass() ~= "ttt_totem" or tData:GetEntityDistance() > 100 then return end
 
 		local ownsTotem = client == owner
 		local sameTeam = owner:GetTeam() == client:GetTeam()
@@ -151,38 +153,36 @@ if CLIENT then
 			end
 		end
 
-		params.drawInfo = true
-		params.displayInfo.title.text = "Totem"
+		-- enable targetID rendering
+		tData:EnableText()
+		tData:EnableOutline(isTHunter)
+		tData:SetOutlineColor(not ownsTotem and sameTeam and COLOR_GREEN or COLOR_RED)
 
-		params.drawOutline = isTHunter
-		params.outlineColor = not ownsTotem and sameTeam and COLOR_GREEN or COLOR_RED
-
-		params.displayInfo.subtitle.text = textTotemOwner
+		tData:SetTitle("Totem")
+		tData:SetSubtitle(textTotemOwner)
 
 		if ownsTotem then
-			params.displayInfo.key = input.GetKeyCode(input.LookupBinding("+use"))
-			params.displayInfo.subtitle.text = GetPT("target_pickup", key_params)
-			params.displayInfo.desc[#params.displayInfo.desc + 1] = {
-				text = TryT("totem_own_totem"),
-			}
-		elseif TOTEMHUNTER then
-			params.displayInfo.icon[#params.displayInfo.icon + 1] = {
-				material = TOTEMHUNTER.iconMaterial,
-				color = COLOR_WHITE,
-			}
+			tData:SetKeyBinding("+use")
+			tData:SetSubtitle(GetPT("target_pickup", key_params))
+			tData:AddDescriptionLine(TryT("totem_own_totem"))
+		else
+			tData:AddIcon(
+				TOTEMHUNTER.iconMaterial,
+				COLOR_WHITE
+			)
 		end
 
 		if isTHunter and sameTeam and not ownsTotem then
-			params.displayInfo.desc[#params.displayInfo.desc + 1] = {
-				text = TryT("totem_teammate_totem"),
-			}
+			tData:AddDescriptionLine(TryT("totem_teammate_totem"))
 		end
+
 		local activeWeapon = client:GetActiveWeapon()
-		if TOTEMHUNTER and not sameTeam and activeWeapon and activeWeapon:GetClass() == "weapon_ttt_totemknife" then
-			params.displayInfo.desc[#params.displayInfo.desc + 1] = {
-				text = TryT("totem_destroy_totem"),
-				color = TOTEMHUNTER.color,
-			}
+
+		if not sameTeam and activeWeapon and activeWeapon:GetClass() == "weapon_ttt_totemknife" then
+			tData:AddDescriptionLine(
+				TryT("totem_destroy_totem"),
+				TOTEMHUNTER.color
+			)
 		end
 	end)
 end
