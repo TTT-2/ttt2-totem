@@ -1,11 +1,12 @@
 TTT2Totem.AnyTotems = true
 
-util.AddNetworkString("TTT2Totem")
 util.AddNetworkString("TTT2TotemPlaceTotem")
 util.AddNetworkString("TTT2ClientInitTotem")
 
 local totem_enabled = CreateConVar("ttt2_totem", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 local walk_speed_enabled = CreateConVar("ttt2_totem_enable_speedmodifier", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+
+CreateConVar("ttt2_totem_max_totem_pickups", "2", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
 -- initial global var sync
 hook.Add("TTT2SyncGlobals", "TTT2TotemSyncGlobals", function()
@@ -21,17 +22,13 @@ function PlaceTotem(len, sender)
 	if not IsValid(ply) or not ply:IsTerror() then return end
 
 	if not ply.CanSpawnTotem or IsValid(ply:GetNWEntity("Totem", NULL)) or ply.PlaceTotem then
-		net.Start("TTT2Totem")
-		net.WriteInt(1, 8)
-		net.Send(ply)
+		LANG.Msg(ply, "totem_already_placed", nil, MSG_MSTACK_WARN)
 
 		return
 	end
 
 	if not ply:OnGround() then
-		net.Start("TTT2Totem")
-		net.WriteInt(2, 8)
-		net.Send(ply)
+		LANG.Msg(ply, "totem_place_ground_needed", nil, MSG_MSTACK_WARN)
 
 		return
 	end
@@ -50,9 +47,7 @@ function PlaceTotem(len, sender)
 
 			ply:SetNWEntity("Totem", totem)
 
-			net.Start("TTT2Totem")
-			net.WriteInt(3, 8)
-			net.Send(ply)
+			LANG.Msg(ply, "totem_placed", nil, MSG_MSTACK_ROLE)
 
 			TotemUpdate()
 		end
@@ -89,9 +84,7 @@ function TotemUpdate()
 		else
 			TTT2Totem.AnyTotems = false
 
-			net.Start("TTT2Totem")
-			net.WriteInt(8, 8)
-			net.Broadcast()
+			LANG.All("totem_all_destroyed", nil, MSG_MSTACK_WARN)
 
 			return
 		end
@@ -124,7 +117,7 @@ local function ResetTotems()
 		v:SetNWEntity("Totem", NULL)
 
 		v.DamageNotified = false
-		v.totemuses = 0
+		v.numTotemPickups = 0
 	end
 
 	TTT2Totem.AnyTotems = true
@@ -142,7 +135,7 @@ local function TotemInit(ply)
 	ply:SetNWEntity("Totem", NULL)
 
 	ply.DamageNotified = false
-	ply.totemuses = 0
+	ply.numTotemPickups = 0
 end
 
 hook.Add("PlayerInitialSpawn", "TTT2TotemInit", TotemInit)
@@ -153,6 +146,7 @@ hook.Add("PlayerDisconnected", "TTT2TotemSync", TotemUpdate)
 hook.Add("TTTUlxInitCustomCVar", "TTTTotemInitRWCVar", function(name)
 	ULib.replicatedWritableCvar("ttt2_totem", "rep_ttt2_totem", GetConVar("ttt2_totem"):GetBool(), true, false, name)
 	ULib.replicatedWritableCvar("ttt2_totem_enable_speedmodifier", "rep_ttt2_totem_enable_speedmodifier", GetConVar("ttt2_totem_enable_speedmodifier"):GetBool(), true, false, name)
+	ULib.replicatedWritableCvar("ttt2_totem_max_totem_pickups", "rep_ttt2_totem_max_totem_pickups", GetConVar("ttt2_totem_max_totem_pickups"):GetBool(), true, false, name)
 end)
 
 cvars.AddChangeCallback("ttt2_totem", function(cvar, old, new)
@@ -163,6 +157,6 @@ cvars.AddChangeCallback("ttt2_totem", function(cvar, old, new)
 		ResetTotems()
 	end
 end)
-cvars.AddChangeCallback('ttt2_totem_enable_speedmodifier', function(cv, old, new)
-	SetGlobalBool('ttt2_totem_enable_speedmodifier', tobool(tonumber(new)))
+cvars.AddChangeCallback("ttt2_totem_enable_speedmodifier", function(cv, old, new)
+	SetGlobalBool("ttt2_totem_enable_speedmodifier", tobool(tonumber(new)))
 end)

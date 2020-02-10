@@ -32,21 +32,25 @@ function ENT:Initialize()
 end
 
 function ENT:UseOverride(activator)
-	if IsValid(activator) and activator:IsTerror() and self:GetOwner() == activator and activator.totemuses < 2 then
+	local owner = self:GetOwner()
+
+	local max_pickups = GetConVar("ttt2_totem_max_totem_pickups"):GetInt()
+
+	if IsValid(activator) and activator:IsTerror() and owner == activator
+		and (activator.numTotemPickups < max_pickups or max_pickups == -1)
+	then
 		activator.CanSpawnTotem = true
 		activator.PlacedTotem = false
 
 		activator:SetNWEntity("Totem", NULL)
 
-		if not activator.totemuses then
-			activator.totemuses = 0
+		if not activator.numTotemPickups then
+			activator.numTotemPickups = 0
 		end
 
-		activator.totemuses = activator.totemuses + 1
+		activator.numTotemPickups = activator.numTotemPickups + 1
 
-		net.Start("TTT2Totem")
-		net.WriteInt(4, 8)
-		net.Send(activator)
+		LANG.Msg(activator, "totem_picked_up", nil, MSG_MSTACK_PLAIN)
 
 		self:Remove()
 
@@ -55,10 +59,12 @@ function ENT:UseOverride(activator)
 				TotemUpdate()
 			end)
 		end
-	elseif IsValid(activator) and activator:IsTerror() and self:GetOwner() == activator and activator.totemuses >= 2 then
-		net.Start("TTT2Totem")
-		net.WriteInt(7, 8)
-		net.Send(activator)
+	elseif IsValid(activator) and activator:IsTerror() and owner == activator and activator.numTotemPickups >= max_pickups then
+		if max_pickups == 0 then
+			LANG.Msg(activator, "totem_already_no_pickup", nil, MSG_MSTACK_WARN)
+		elseif activator.numTotemPickups >= max_pickups then
+			LANG.Msg(activator, "totem_already_picked_up", {num = max_pickups}, MSG_MSTACK_WARN)
+		end
 	end
 end
 
@@ -73,9 +79,7 @@ function ENT:OnTakeDamage(dmginfo)
 
 	if (infl:IsPlayer() and infl:IsTotemhunter() or att:IsPlayer() and att:IsTotemhunter()) and infl:GetClass() == "weapon_ttt_totemknife" then
 		if SERVER and owner:IsValid() and att:IsValid() and att:IsPlayer() then
-			net.Start("TTT2Totem")
-			net.WriteInt(5, 8)
-			net.Broadcast()
+			LANG.MsgAll("totem_destroyed", nil, MSG_MSTACK_WARN)
 		end
 
 		GiveTotemHunterCredits(att, self)
