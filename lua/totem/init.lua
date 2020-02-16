@@ -84,7 +84,7 @@ function TotemUpdate()
 		else
 			TTT2Totem.AnyTotems = false
 
-			LANG.All("totem_all_destroyed", nil, MSG_MSTACK_WARN)
+			LANG.MsgAll("totem_all_destroyed", nil, MSG_MSTACK_WARN)
 
 			return
 		end
