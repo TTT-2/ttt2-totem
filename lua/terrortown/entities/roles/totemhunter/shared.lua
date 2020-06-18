@@ -51,7 +51,7 @@ if SERVER then
 
 	-- the custom radar for the totemhunter to display all totem positions
 	ROLE.CustomRadar = function(ply) -- Custom Radar function
-		if TTT2Totem.AnyTotems then
+		if ttt2net.GetGlobal({"TTT2Totem", "AnyTotems"}) then
 			local targets = {}
 			local scan_ents = ents.FindByClass("ttt_totem")
 

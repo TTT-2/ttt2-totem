@@ -1,5 +1,3 @@
-TTT2Totem.AnyTotems = true
-
 util.AddNetworkString("TTT2TotemPlaceTotem")
 util.AddNetworkString("TTT2ClientInitTotem")
 
@@ -74,15 +72,15 @@ function TotemUpdate()
 		local totems = {}
 
 		for _, v in ipairs(player.GetAll()) do
-			if (v:IsTerror() or not v:Alive()) and (v:HasTotem() or v.CanSpawnTotem) and TTT2Totem.AnyTotems then
+			if (v:IsTerror() or not v:Alive()) and (v:HasTotem() or v.CanSpawnTotem) and ttt2net.GetGlobal({"TTT2Totem", "AnyTotems"}) then
 				table.insert(totems, v)
 			end
 		end
 
 		if #totems >= 1 then
-			TTT2Totem.AnyTotems = true
+			ttt2net.SetGlobal({"TTT2Totem", "AnyTotems"}, { type = "boolean" }, true)
 		else
-			TTT2Totem.AnyTotems = false
+			ttt2net.SetGlobal({"TTT2Totem", "AnyTotems"}, { type = "boolean" }, false)
 
 			LANG.MsgAll("totem_all_destroyed", nil, MSG_MSTACK_WARN)
 
@@ -97,7 +95,7 @@ function TotemUpdate()
 			end
 		end
 
-		if TTT2Totem.AnyTotems and #innototems == 0 then
+		if ttt2net.GetGlobal({"TTT2Totem", "AnyTotems"}) and #innototems == 0 then
 			DestroyAllTotems()
 		end
 	end
@@ -120,7 +118,7 @@ local function ResetTotems()
 		v.numTotemPickups = 0
 	end
 
-	TTT2Totem.AnyTotems = true
+	ttt2net.SetGlobal({"TTT2Totem", "AnyTotems"}, { type = "boolean" }, true)
 end
 
 local function TotemInit(ply)

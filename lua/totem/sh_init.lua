@@ -1,7 +1,7 @@
 TTT2Totem = {}
 
 hook.Add("TTTPlayerSpeedModifier", "TTT2TotemSpeed", function(ply, _, _, noLag)
-	if not GetGlobalBool("ttt2_totem", false) or not TTT2Totem.AnyTotems then return end
+	if not GetGlobalBool("ttt2_totem", false) or not ttt2net.GetGlobal({"TTT2Totem", "AnyTotems"}) then return end
 
 	local rs = GetRoundState()
 
@@ -15,6 +15,7 @@ hook.Add("TTTPlayerSpeedModifier", "TTT2TotemSpeed", function(ply, _, _, noLag)
 
 			if IsValid(Totem) then
 				local distance = Totem:GetPos():Distance(ply:GetPos())
+
 				if distance >= 2500 then
 					mul = math.Round(math.Remap(distance, 2500, 5000, 1, 0.75), 2)
 				elseif distance <= 1000 then

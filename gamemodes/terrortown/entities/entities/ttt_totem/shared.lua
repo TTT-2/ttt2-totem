@@ -182,7 +182,7 @@ if CLIENT then
 
 		local activeWeapon = client:GetActiveWeapon()
 
-		if not sameTeam and activeWeapon and activeWeapon:GetClass() == "weapon_ttt_totemknife" then
+		if not sameTeam and IsValid(activeWeapon) and activeWeapon:GetClass() == "weapon_ttt_totemknife" then
 			tData:AddDescriptionLine(
 				TryT("totem_destroy_totem"),
 				TOTEMHUNTER.color
