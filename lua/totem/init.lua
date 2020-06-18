@@ -118,7 +118,7 @@ local function ResetTotems()
 		v.numTotemPickups = 0
 	end
 
-	ttt2net.SetGlobal({"TTT2Totem", "AnyTotems"}, { type = "bool" }, true)
+	ttt2net.SetGlobal({"TTT2Totem", "AnyTotems"}, { type = "bool" }, false)
 end
 
 local function TotemInit(ply)
