@@ -78,9 +78,9 @@ function TotemUpdate()
 		end
 
 		if #totems >= 1 then
-			ttt2net.SetGlobal({"TTT2Totem", "AnyTotems"}, { type = "boolean" }, true)
+			ttt2net.SetGlobal({"TTT2Totem", "AnyTotems"}, { type = "bool" }, true)
 		else
-			ttt2net.SetGlobal({"TTT2Totem", "AnyTotems"}, { type = "boolean" }, false)
+			ttt2net.SetGlobal({"TTT2Totem", "AnyTotems"}, { type = "bool" }, false)
 
 			LANG.MsgAll("totem_all_destroyed", nil, MSG_MSTACK_WARN)
 
@@ -118,7 +118,7 @@ local function ResetTotems()
 		v.numTotemPickups = 0
 	end
 
-	ttt2net.SetGlobal({"TTT2Totem", "AnyTotems"}, { type = "boolean" }, true)
+	ttt2net.SetGlobal({"TTT2Totem", "AnyTotems"}, { type = "bool" }, true)
 end
 
 local function TotemInit(ply)
