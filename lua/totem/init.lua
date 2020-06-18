@@ -72,7 +72,7 @@ function TotemUpdate()
 		local totems = {}
 
 		for _, v in ipairs(player.GetAll()) do
-			if (v:IsTerror() or not v:Alive()) and (v:HasTotem() or v.CanSpawnTotem) and ttt2net.GetGlobal({"TTT2Totem", "AnyTotems"}) then
+			if (v:IsTerror() or not v:Alive()) and (v:HasTotem() or v.CanSpawnTotem) then
 				table.insert(totems, v)
 			end
 		end
