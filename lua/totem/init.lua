@@ -19,7 +19,7 @@ function PlaceTotem(len, sender)
 
 	if not IsValid(ply) or not ply:IsTerror() then return end
 
-	if not ply.CanSpawnTotem or IsValid(ply:GetNWEntity("Totem", NULL)) or ply.PlaceTotem then
+	if not ply:TTT2NETGetBool({ "TTT2Totem", "CanSpawnTotem" }) or IsValid(ply:GetNWEntity("Totem", NULL)) or ply.PlaceTotem then
 		LANG.Msg(ply, "totem_already_placed", nil, MSG_MSTACK_WARN)
 
 		return
@@ -40,7 +40,7 @@ function PlaceTotem(len, sender)
 			totem:SetOwner(ply)
 			totem:Spawn()
 
-			ply.CanSpawnTotem = false
+			ply:TTT2NETSetBool({"TTT2Totem", "CanSpawnTotem"}, false)
 			ply.PlacedTotem = true
 
 			ply:SetNWEntity("Totem", totem)
@@ -59,7 +59,7 @@ local function DestroyAllTotems()
 	end
 
 	for _, v in ipairs(player.GetAll()) do
-		v.CanSpawnTotem = false
+		v:TTT2NETSetBool({"TTT2Totem", "CanSpawnTotem"}, false)
 	end
 
 	TotemUpdate()
@@ -72,7 +72,7 @@ function TotemUpdate()
 		local totems = {}
 
 		for _, v in ipairs(player.GetAll()) do
-			if (v:IsTerror() or not v:Alive()) and (v:HasTotem() or v.CanSpawnTotem) then
+			if (v:IsTerror() or not v:Alive()) and (v:HasTotem() or v:TTT2NETGetBool({ "TTT2Totem", "CanSpawnTotem" })) then
 				table.insert(totems, v)
 			end
 		end
@@ -109,7 +109,7 @@ end
 
 local function ResetTotems()
 	for _, v in ipairs(player.GetAll()) do
-		v.CanSpawnTotem = true
+		v:TTT2NETSetBool({"TTT2Totem", "CanSpawnTotem"}, true)
 		v.PlacedTotem = false
 
 		v:SetNWEntity("Totem", NULL)
@@ -127,7 +127,7 @@ local function TotemInit(ply)
 	net.Start("TTT2ClientInitTotem")
 	net.Send(ply)
 
-	ply.CanSpawnTotem = true
+	ply:TTT2NETSetBool({"TTT2Totem", "CanSpawnTotem"}, true)
 	ply.PlacedTotem = false
 
 	ply:SetNWEntity("Totem", NULL)

@@ -39,7 +39,7 @@ function ENT:UseOverride(activator)
 	if IsValid(activator) and activator:IsTerror() and owner == activator
 		and (activator.numTotemPickups < max_pickups or max_pickups == -1)
 	then
-		activator.CanSpawnTotem = true
+		activator:TTT2NETSetBool({"TTT2Totem", "CanSpawnTotem"}, true)
 		activator.PlacedTotem = false
 
 		activator:SetNWEntity("Totem", NULL)
