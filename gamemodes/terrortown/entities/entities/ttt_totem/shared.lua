@@ -75,9 +75,9 @@ function ENT:OnTakeDamage(dmginfo)
 
 	local owner, att, infl = self:GetOwner(), dmginfo:GetAttacker(), dmginfo:GetInflictor()
 
-	if not IsValid(owner) or infl == owner or att == owner or owner:HasTeam(TEAM_TRAITOR) or not infl.IsTotemhunter and not att.IsTotemhunter then return end
+	if not IsValid(owner) or infl == owner or att == owner or owner:HasTeam(TEAM_TRAITOR) then return end
 
-	if (infl:IsPlayer() and infl:IsTotemhunter() or att:IsPlayer() and att:IsTotemhunter()) and infl:GetClass() == "weapon_ttt_totemknife" then
+	if (infl:IsPlayer() and infl:GetSubRole() == ROLE_TOTEMHUNTER or att:IsPlayer() and att:GetSubRole() == ROLE_TOTEMHUNTER) and infl:GetClass() == "weapon_ttt_totemknife" then
 		if SERVER and owner:IsValid() and att:IsValid() and att:IsPlayer() then
 			LANG.MsgAll("totem_destroyed", nil, MSG_MSTACK_WARN)
 		end
@@ -145,7 +145,7 @@ if CLIENT then
 
 		local ownsTotem = client == owner
 		local sameTeam = owner:GetTeam() == client:GetTeam()
-		local isTHunter = client.IsTotemhunter and client:IsTotemhunter()
+		local isTHunter = client:GetSubRole() == ROLE_TOTEMHUNTER
 		local textTotemOwner = TryT("totem_other_terrorist")
 
 		if isTHunter then
