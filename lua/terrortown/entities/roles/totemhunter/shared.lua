@@ -44,6 +44,14 @@ function ROLE:Initialize()
 		LANG.AddToLanguage("Deutsch", "search_role_" .. self.abbr, "Diese Person war ein Totemhunter!")
 		LANG.AddToLanguage("Deutsch", "target_" .. self.name, "Totemhunter")
 		LANG.AddToLanguage("Deutsch", "ttt2_desc_" .. self.name, [[Der Totemhunter ist ein Verräter (der mit den anderen Verräter-Rollen zusammenarbeitet) und dessen Ziel es ist, alle anderen Rollen (außer Verräter-Rollen) zu töten ^^ Er kann die Totems seiner Feinde zerstören.]])
+
+		LANG.AddToLanguage("Русский", self.name, "Тотемный охотник")
+		LANG.AddToLanguage("Русский", "info_popup_" .. self.name, [[Вы охотник за тотемами! Попробуйте уничтожить тотемы!]])
+		LANG.AddToLanguage("Русский", "body_found_" .. self.abbr, "Это был охотник за тотемами...")
+		LANG.AddToLanguage("Русский", "search_role_" .. self.abbr, "Этот человек был охотником за тотемами!")
+		LANG.AddToLanguage("Русский", "target_" .. self.name, "Тотемный охотник")
+		LANG.AddToLanguage("Русский", "ttt2_desc_" .. self.name, [[Охотник за тотемами - предатель (который работает вместе с другими предателями), и его цель - убить всех других ролей, кроме других ролей предателя ^^ Охотник за тотемами может уничтожать тотемы своих врагов.]])
+
 	end
 end
 
