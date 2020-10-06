@@ -40,7 +40,7 @@ end)
 -- Register binding functions
 bind.Register("placetotem", function()
 	LookUpTotem(nil, nil, nil, nil)
-end, nil, "TTT2 Totem", "Place Totem", KEY_T)
+end, nil, "header_bindings_totem", "Place Totem", KEY_T)
 
 -- TTT2Totem ULX Module
 hook.Add("TTTUlxModifyAddonSettings", "TTT2TotemModifySettings", function(name)

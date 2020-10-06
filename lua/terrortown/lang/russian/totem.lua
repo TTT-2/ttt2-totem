@@ -30,3 +30,5 @@ L["totem_destroy_totem"] = "Уничтожьте этот тотем своим 
 --L["submenu_addons_totem_title"] = "TTT2 Totem"
 --L["header_addons_totem"] = "General Totem Settings"
 L["label_totem_auto_place_enable"] = "Должна ли система пытаться автоматически разместить тотем в начале раунда?"
+
+--L["header_bindings_totem"] = "TTT2 Totem"

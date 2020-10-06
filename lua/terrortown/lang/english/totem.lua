@@ -30,3 +30,5 @@ L["weapon_thunter_knife_name"] = "Totemhunter's Knife"
 L["submenu_addons_totem_title"] = "TTT2 Totem"
 L["header_addons_totem"] = "General Totem Settings"
 L["label_totem_auto_place_enable"] = "Should the system try to place the Totem automatically at round start?"
+
+L["header_bindings_totem"] = "TTT2 Totem"

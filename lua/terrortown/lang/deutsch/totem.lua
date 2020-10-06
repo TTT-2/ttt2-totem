@@ -29,4 +29,6 @@ L["weapon_thunter_knife_name"] = "Totemjäger Messer"
 
 L["submenu_addons_totem_title"] = "TTT2 Totem"
 L["header_addons_totem"] = "Allgemeine Totem Einstellungen"
-L["label_totem_auto_place_enable"] = "Soll das Totem automatisch plaziert werden?"
+L["label_totem_auto_place_enable"] = "Soll das Totem zu Rendenbeginn automatisch platziert werden?"
+
+L["header_bindings_totem"] = "TTT2 Totem"
