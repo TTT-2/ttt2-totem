@@ -20,10 +20,13 @@ L["totem_slow"] = "Теперь вы заметно медленнее из-за
 L["totem_already_picked_up"] = "Вы можете забрать свой тотем только {num} раз!"
 L["totem_already_no_pickup"] = "Вы не можете забрать свой тотем!"
 L["totem_all_destroyed"] = "Все тотемы уничтожены!"
-L["totem_auto_desc"] = "Должна ли система пытаться автоматически разместить тотем в начале раунда?"
 L["totem_other_terrorist"] = "Это тотем другого террориста"
 L["totem_own_totem"] = "Это ваш тотем"
 L["totem_teammate_totem"] = "Это тотем вашего товарища по команде"
 L["totem_destroy_totem"] = "Уничтожьте этот тотем своим ножом!"
 
 --L["weapon_thunter_knife_name"] = "Totemhunter's Knife"
+
+--L["submenu_addons_totem_title"] = "TTT2 Totem"
+--L["header_addons_totem"] = "General Totem Settings"
+L["label_totem_auto_place_enable"] = "Должна ли система пытаться автоматически разместить тотем в начале раунда?"

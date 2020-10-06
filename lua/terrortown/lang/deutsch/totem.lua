@@ -20,10 +20,13 @@ L["totem_slow"] = "Du bist nun deutlich langsamer, weil du kein Totem platziert 
 L["totem_already_picked_up"] = "Du kannst dein Totem nur {num} mal aufheben!"
 L["totem_already_no_pickup"] = "Du hast dein Totem nicht aufheben!"
 L["totem_all_destroyed"] = "Alle Totems wurden zerstört!"
-L["totem_auto_desc"] = "Soll das Totem automatisch plaziert werden?"
 L["totem_other_terrorist"] = "Dies ist das Totem eines anderen Spielers"
 L["totem_own_totem"] = "Dies ist dein Totem"
 L["totem_teammate_totem"] = "Das ist das Totem eins Teamkollegen"
 L["totem_destroy_totem"] = "Zerstöre dieses Totem mit deinem Messer!"
 
 L["weapon_thunter_knife_name"] = "Totemjäger Messer"
+
+L["submenu_addons_totem_title"] = "TTT2 Totem"
+L["header_addons_totem"] = "Allgemeine Totem Einstellungen"
+L["label_totem_auto_place_enable"] = "Soll das Totem automatisch plaziert werden?"

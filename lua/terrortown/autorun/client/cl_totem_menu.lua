@@ -1,25 +1,17 @@
-local function SettingsTab(dtabs)
-	if not GetGlobalBool("ttt2_totem", false) then return end
+local function PopulateTotemPanel(parent)
+	local form = CreateTTT2Form(parent, "header_addons_totem")
 
-	local padding = dtabs:GetPadding()
-	local PANEL = {}
-
-	vgui.Register("DTotemSettingsPanelList", PANEL, "DPanelList")
-
-	local dsettings = vgui.Create("DTotemSettingsPanelList", dtabs)
-	dsettings:StretchToParent(0, 0, padding, 0)
-	dsettings:EnableVerticalScrollbar(true)
-	dsettings:SetPadding(10)
-	dsettings:SetSpacing(10)
-
-	local dguiT = vgui.Create("DForm", dsettings)
-	dguiT:SetName("Totem")
-	dguiT:CheckBox(LANG.GetTranslation("totem_auto_desc"), "ttt_totem_auto")
-
-	dsettings:AddItem(dguiT)
-
-	dtabs:AddSheet("Totem", dsettings, "icon16/wrench.png", false, false, "Totem Settings")
+	form:MakeCheckBox({
+		label = "label_totem_auto_place_enable",
+		convar = "ttt_totem_auto"
+	})
 end
 
+hook.Add("TTT2ModifyHelpSubMenu", "ttt2_populate_totem_settings", function(helpData, menuId)
+	if not GetGlobalBool("ttt2_totem", false) or menuId ~= "ttt2_addons" then return end
 
-hook.Add("TTTSettingsTabs", "TTT2TotemBindings", SettingsTab)
+	local totemSettings = helpData:PopulateSubMenu(menuId .. "_totem")
+
+	totemSettings:SetTitle("submenu_addons_totem_title")
+	totemSettings:PopulatePanel(PopulateTotemPanel)
+end)

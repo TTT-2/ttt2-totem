@@ -20,10 +20,13 @@ L["totem_slow"] = "You are now noticably slower, due to your Totem being destroy
 L["totem_already_picked_up"] = "You can pickup your Totem only {num} time(s)!"
 L["totem_already_no_pickup"] = "You can't pickup your Totem!"
 L["totem_all_destroyed"] = "All Totems have been destroyed!"
-L["totem_auto_desc"] = "Should the system try to place the Totem automatically at round start?"
 L["totem_other_terrorist"] = "This is the Totem of another terrorist"
 L["totem_own_totem"] = "This is your Totem"
 L["totem_teammate_totem"] = "This is a teammate's Totem"
 L["totem_destroy_totem"] = "Destroy this Totem with your knife!"
 
 L["weapon_thunter_knife_name"] = "Totemhunter's Knife"
+
+L["submenu_addons_totem_title"] = "TTT2 Totem"
+L["header_addons_totem"] = "General Totem Settings"
+L["label_totem_auto_place_enable"] = "Should the system try to place the Totem automatically at round start?"
