@@ -3,8 +3,7 @@ AddCSLuaFile()
 SWEP.HoldType = "knife"
 
 if CLIENT then
-	SWEP.PrintName = "Totemhunter's Knife"
-	SWEP.Slot = 8
+	SWEP.PrintName = "weapon_thunter_knife_name"
 
 	SWEP.ViewModelFlip = false
 	SWEP.ViewModelFOV = 54

@@ -1,15 +1,5 @@
 local totem_autoplace = CreateConVar("ttt_totem_auto", "1", {FCVAR_ARCHIVE}, "Should the system try to place the Totem automaticially after round start?")
 
-net.Receive("TTT2ClientInitTotem", function()
-	include("totem/client/cl_menu.lua")
-end)
-
-hook.Add("TTT2FinishedLoading", "TTT2TotemInitLang", function()
-	if CLIENT then
-		include("totem/client/cl_lang.lua")
-	end
-end)
-
 function LookUpTotem(ply, cmd, args, argStr)
 	if not GetGlobalBool("ttt2_totem", false) then return end
 
@@ -24,6 +14,7 @@ local function AutoPlace()
 
 	if not IsValid(ply) or not ply:IsTerror() or GetRoundState() == ROUND_WAIT or IsValid(ply:GetNWEntity("Totem", NULL)) then
 		timer.Remove("TTT2AutoPlaceTotem")
+
 		return
 	end
 
@@ -34,18 +25,24 @@ hook.Add("TTTBeginRound", "TTT2TotemAutomaticPlacement", function()
 	if not GetGlobalBool("ttt2_totem", false) or not totem_autoplace:GetBool() then return end
 
 	AutoPlace()
+
 	timer.Create("TTT2AutoPlaceTotem", 2, 0, AutoPlace)
 end)
 
 hook.Add("PreDrawOutlines", "AddTotemOutlines", function()
 	local totem = LocalPlayer():GetTotem()
 
-	if totem then
-		outline.Add( { totem }, COLOR_GREEN, OUTLINE_MODE_VISIBLE )
-	end
-end )
+	if not totem then return end
 
---------------------TTT2Totem Module--------------------
+	outline.Add({totem}, COLOR_GREEN, OUTLINE_MODE_VISIBLE)
+end)
+
+-- Register binding functions
+bind.Register("placetotem", function()
+	LookUpTotem(nil, nil, nil, nil)
+end, nil, "TTT2 Totem", "Place Totem", KEY_T)
+
+-- TTT2Totem ULX Module
 hook.Add("TTTUlxModifyAddonSettings", "TTT2TotemModifySettings", function(name)
 	local ttt2tpnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
@@ -71,7 +68,7 @@ hook.Add("TTTUlxModifyAddonSettings", "TTT2TotemModifySettings", function(name)
 		parent = ttt2tlst
 	})
 
-	ttt2tlst:AddItem(xlib.makelabel{ -- empty line
+	ttt2tlst:AddItem(xlib.makelabel{
 		x = 0,
 		y = 0,
 		w = 415,

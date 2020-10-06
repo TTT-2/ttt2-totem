@@ -1,5 +1,6 @@
 if SERVER then
 	AddCSLuaFile()
+
 	resource.AddFile("materials/vgui/ttt/dynamic/roles/icon_thunt.vmt")
 end
 
@@ -27,36 +28,9 @@ end
 
 function ROLE:Initialize()
 	roles.SetBaseRole(self, ROLE_TRAITOR)
-
-	if CLIENT then
-		-- setup basic translation !
-		LANG.AddToLanguage("English", self.name, "Totemhunter")
-		LANG.AddToLanguage("English", "info_popup_" .. self.name, [[You are a Totemhunter! Try to destroy some Totems!]])
-		LANG.AddToLanguage("English", "body_found_" .. self.abbr, "This was a Totemhunter...")
-		LANG.AddToLanguage("English", "search_role_" .. self.abbr, "This person was a Totemhunter!")
-		LANG.AddToLanguage("English", "target_" .. self.name, "Totemhunter")
-		LANG.AddToLanguage("English", "ttt2_desc_" .. self.name, [[The Totemhunter is a Traitor (who works together with the other traitors) and the goal is to kill all other roles except the other traitor roles ^^ The Totemhunter is able to destroy the totems of his enemies.]])
-
-		-- maybe this language as well...
-		LANG.AddToLanguage("Deutsch", self.name, "Totemhunter")
-		LANG.AddToLanguage("Deutsch", "info_popup_" .. self.name, [[Du bist ein Totemhunter! Versuche ein paar Totems zu zerstören!]])
-		LANG.AddToLanguage("Deutsch", "body_found_" .. self.abbr, "Er war ein Totemhunter...")
-		LANG.AddToLanguage("Deutsch", "search_role_" .. self.abbr, "Diese Person war ein Totemhunter!")
-		LANG.AddToLanguage("Deutsch", "target_" .. self.name, "Totemhunter")
-		LANG.AddToLanguage("Deutsch", "ttt2_desc_" .. self.name, [[Der Totemhunter ist ein Verräter (der mit den anderen Verräter-Rollen zusammenarbeitet) und dessen Ziel es ist, alle anderen Rollen (außer Verräter-Rollen) zu töten ^^ Er kann die Totems seiner Feinde zerstören.]])
-
-		LANG.AddToLanguage("Русский", self.name, "Тотемный охотник")
-		LANG.AddToLanguage("Русский", "info_popup_" .. self.name, [[Вы охотник за тотемами! Попробуйте уничтожить тотемы!]])
-		LANG.AddToLanguage("Русский", "body_found_" .. self.abbr, "Это был охотник за тотемами...")
-		LANG.AddToLanguage("Русский", "search_role_" .. self.abbr, "Этот человек был охотником за тотемами!")
-		LANG.AddToLanguage("Русский", "target_" .. self.name, "Тотемный охотник")
-		LANG.AddToLanguage("Русский", "ttt2_desc_" .. self.name, [[Охотник за тотемами - предатель (который работает вместе с другими предателями), и его цель - убить всех других ролей, кроме других ролей предателя ^^ Охотник за тотемами может уничтожать тотемы своих врагов.]])
-
-	end
 end
 
 if SERVER then
-
 	-- the custom radar for the totemhunter to display all totem positions
 	ROLE.CustomRadar = function(ply) -- Custom Radar function
 		if ttt2net.GetGlobal({"TTT2Totem", "AnyTotems"}) then

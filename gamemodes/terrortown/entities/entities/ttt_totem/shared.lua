@@ -149,12 +149,7 @@ if CLIENT then
 		local textTotemOwner = TryT("totem_other_terrorist")
 
 		if isTHunter then
-			local nick = owner:Nick()
-			textTotemOwner = "This is " .. nick .. "'s Totem"
-
-			if string.EndsWith(nick, "s") or string.EndsWith(nick, "x") or string.EndsWith(nick, "z") or string.EndsWith(nick, "ß") then
-				textTotemOwner = "This is " .. nick .. "' Totem"
-			end
+			textTotemOwner = GetPT("totem_owner", {name = owner:Nick()})
 		end
 
 		-- enable targetID rendering
@@ -162,7 +157,7 @@ if CLIENT then
 		tData:EnableOutline(isTHunter)
 		tData:SetOutlineColor(not ownsTotem and sameTeam and COLOR_GREEN or COLOR_RED)
 
-		tData:SetTitle("Totem")
+		tData:SetTitle(TryT("totem_name"))
 		tData:SetSubtitle(textTotemOwner)
 
 		if ownsTotem then

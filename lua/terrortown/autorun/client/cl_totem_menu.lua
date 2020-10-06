@@ -21,9 +21,5 @@ local function SettingsTab(dtabs)
 	dtabs:AddSheet("Totem", dsettings, "icon16/wrench.png", false, false, "Totem Settings")
 end
 
--- Register binding functions
-bind.Register("placetotem", function()
-	LookUpTotem(nil, nil, nil, nil)
-end, nil, "TTT2 Totem", "Place Totem", KEY_T)
 
 hook.Add("TTTSettingsTabs", "TTT2TotemBindings", SettingsTab)

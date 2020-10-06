@@ -1,5 +1,4 @@
 util.AddNetworkString("TTT2TotemPlaceTotem")
-util.AddNetworkString("TTT2ClientInitTotem")
 
 local totem_enabled = CreateConVar("ttt2_totem", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 local walk_speed_enabled = CreateConVar("ttt2_totem_enable_speedmodifier", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
@@ -124,9 +123,6 @@ end
 local function TotemInit(ply)
 	if not totem_enabled:GetBool() then return end
 
-	net.Start("TTT2ClientInitTotem")
-	net.Send(ply)
-
 	ply:TTT2NETSetBool({"TTT2Totem", "CanSpawnTotem"}, true)
 	ply.PlacedTotem = false
 
@@ -155,6 +151,7 @@ cvars.AddChangeCallback("ttt2_totem", function(cvar, old, new)
 		ResetTotems()
 	end
 end)
+
 cvars.AddChangeCallback("ttt2_totem_enable_speedmodifier", function(cv, old, new)
 	SetGlobalBool("ttt2_totem_enable_speedmodifier", tobool(tonumber(new)))
 end)
