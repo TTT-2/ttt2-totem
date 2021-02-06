@@ -1,5 +1,5 @@
 local function PopulateTotemPanel(parent)
-	local form = CreateTTT2Form(parent, "header_addons_totem")
+	local form = vgui.CreateTTT2Form(parent, "header_addons_totem")
 
 	form:MakeCheckBox({
 		label = "label_totem_auto_place_enable",
