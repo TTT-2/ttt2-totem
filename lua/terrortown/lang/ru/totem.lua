@@ -1,4 +1,4 @@
-local L = LANG.GetLanguageTableReference("Русский")
+local L = LANG.GetLanguageTableReference("ru")
 
 -- GENERAL ROLE LANGUAGE STRINGS
 L[TOTEMHUNTER.name] = "Тотемный охотник"
