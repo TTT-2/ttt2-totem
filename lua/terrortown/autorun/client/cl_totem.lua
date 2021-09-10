@@ -12,7 +12,7 @@ end
 local function AutoPlace()
 	local ply = LocalPlayer()
 
-	if not IsValid(ply) or not ply:IsTerror() or GetRoundState() == ROUND_WAIT or IsValid(ply:GetNWEntity("Totem", NULL)) then
+	if not IsValid(ply) or not ply:IsTerror() or GetRoundState() == ROUND_WAIT or ply:HasTotem() or not ttt2net.GetGlobal({"TTT2Totem", "AnyTotems"}) then
 		timer.Remove("TTT2AutoPlaceTotem")
 
 		return
@@ -26,7 +26,7 @@ hook.Add("TTTBeginRound", "TTT2TotemAutomaticPlacement", function()
 
 	AutoPlace()
 
-	timer.Create("TTT2AutoPlaceTotem", 2, 0, AutoPlace)
+	timer.Create("TTT2AutoPlaceTotem", 2, 6, AutoPlace)
 end)
 
 hook.Add("PreDrawOutlines", "AddTotemOutlines", function()

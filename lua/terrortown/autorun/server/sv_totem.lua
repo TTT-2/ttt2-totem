@@ -18,7 +18,7 @@ function PlaceTotem(len, sender)
 
 	if not IsValid(ply) or not ply:IsTerror() then return end
 
-	if not ply:TTT2NETGetBool({ "TTT2Totem", "CanSpawnTotem" }) or IsValid(ply:GetNWEntity("Totem", NULL)) or ply.PlaceTotem then
+	if not ply:TTT2NETGetBool({ "TTT2Totem", "CanSpawnTotem" }) or IsValid(ply:GetNWEntity("Totem", NULL)) or ply.PlacedTotem then
 		LANG.Msg(ply, "totem_already_placed", nil, MSG_MSTACK_WARN)
 
 		return
