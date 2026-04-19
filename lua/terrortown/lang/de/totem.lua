@@ -32,3 +32,9 @@ L["header_addons_totem"] = "Allgemeine Totem Einstellungen"
 L["label_totem_auto_place_enable"] = "Soll das Totem zu Rundenbeginn automatisch platziert werden?"
 
 L["header_bindings_totem"] = "TTT2 Totem"
+
+L["submenu_server_addons_totem_title"] = "TTT2 Totem"
+L["label_totem"] = "Totem aktivieren?"
+L["help_totem_max_totem_pickups"] = "Setze es auf -1, um unendlich viele Aufhebungen zu erlauben."
+L["label_totem_max_totem_pickups"] = "Wie oft kann ein Totem aufgehoben werden?"
+L["label_totem_enable_speedmodifier"] = "Soll der Geschwindigkeitsmodifikator aktiviert werden, wenn ein Totem zerstört wird?"

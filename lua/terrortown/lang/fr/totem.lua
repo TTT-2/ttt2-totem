@@ -32,3 +32,9 @@ L["header_addons_totem"] = "Paramètres généraux du mode TTT2 Totem"
 L["label_totem_auto_place_enable"] = "Le système devrait-il essayer de placer automatiquement le Totem au début du round?"
 
 L["header_bindings_totem"] = "TTT2 Totem"
+
+--L["submenu_server_addons_totem_title"] = "TTT2 Totem"
+--L["label_totem"] = "Enable Totem?"
+--L["help_totem_max_totem_pickups"] = "Set it to -1 to allow for infinite pickups."
+--L["label_totem_max_totem_pickups"] = "How many times can a Totem be picked up?"
+--L["label_totem_enable_speedmodifier"] = "Should the speed modifier be enabled when a Totem is destroyed?"

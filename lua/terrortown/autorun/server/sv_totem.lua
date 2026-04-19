@@ -137,12 +137,6 @@ hook.Add("TTTPrepareRound", "TTT2ResetValues", ResetTotems)
 hook.Add("TTTBeginRound", "TTT2TotemSync", TotemUpdate)
 hook.Add("PlayerDisconnected", "TTT2TotemSync", TotemUpdate)
 
-hook.Add("TTTUlxInitCustomCVar", "TTTTotemInitRWCVar", function(name)
-	ULib.replicatedWritableCvar("ttt2_totem", "rep_ttt2_totem", GetConVar("ttt2_totem"):GetBool(), true, false, name)
-	ULib.replicatedWritableCvar("ttt2_totem_enable_speedmodifier", "rep_ttt2_totem_enable_speedmodifier", GetConVar("ttt2_totem_enable_speedmodifier"):GetBool(), true, false, name)
-	ULib.replicatedWritableCvar("ttt2_totem_max_totem_pickups", "rep_ttt2_totem_max_totem_pickups", GetConVar("ttt2_totem_max_totem_pickups"):GetBool(), true, false, name)
-end)
-
 cvars.AddChangeCallback("ttt2_totem", function(cvar, old, new)
 	SetGlobalBool("ttt2_totem", tobool(tonumber(new)))
 
