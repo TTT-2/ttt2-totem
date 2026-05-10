@@ -56,7 +56,7 @@ if SERVER then
 				pos.z = math.Round(pos.z)
 
 				local owner = t:GetOwner()
-				if owner ~= ply and not owner:HasTeam(TEAM_TRAITOR) then
+				if owner ~= ply and owner:GetTeam() ~= TEAM_TRAITOR then
 					table.insert(targets, {subrole = -1, pos = pos})
 				end
 			end

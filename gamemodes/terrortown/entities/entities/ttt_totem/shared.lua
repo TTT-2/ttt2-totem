@@ -75,7 +75,7 @@ function ENT:OnTakeDamage(dmginfo)
 
 	local owner, att, infl = self:GetOwner(), dmginfo:GetAttacker(), dmginfo:GetInflictor()
 
-	if not IsValid(owner) or infl == owner or att == owner or owner:HasTeam(TEAM_TRAITOR) then return end
+	if not IsValid(owner) or infl == owner or att == owner or owner:GetTeam() == TEAM_TRAITOR then return end
 
 	if (infl:IsPlayer() and infl:GetSubRole() == ROLE_TOTEMHUNTER or att:IsPlayer() and att:GetSubRole() == ROLE_TOTEMHUNTER) and infl:GetClass() == "weapon_ttt_totemknife" then
 		if SERVER and owner:IsValid() and att:IsValid() and att:IsPlayer() then
