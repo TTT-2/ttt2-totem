@@ -89,7 +89,7 @@ function TotemUpdate()
 		local innototems = {}
 
 		for _, v in ipairs(totems) do
-			if not v:HasTeam(TEAM_TRAITOR) then
+			if v:GetTeam() ~= TEAM_TRAITOR then
 				table.insert(innototems, v)
 			end
 		end
