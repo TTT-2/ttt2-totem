@@ -91,7 +91,7 @@ function ENT:OnTakeDamage(dmginfo)
 
 		sound.Play(zapsound, self:GetPos())
 
-		self:GetOwner():SetNWEntity("Totem", NULL)
+		owner:SetNWEntity("Totem", NULL)
 		self:Remove()
 
 		if SERVER then
@@ -104,13 +104,17 @@ end
 
 function ENT:FakeDestroy()
 	local effect = EffectData()
+	local owner = self:GetOwner()
+
+	if not IsValid(owner) then return end
+
 	effect:SetOrigin(self:GetPos())
 
 	util.Effect("cball_explode", effect)
 
 	sound.Play(zapsound, self:GetPos())
 
-	self:GetOwner():SetNWEntity("Totem", NULL)
+	owner:SetNWEntity("Totem", NULL)
 	self:Remove()
 
 	if SERVER then
