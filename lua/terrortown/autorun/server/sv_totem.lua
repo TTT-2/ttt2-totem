@@ -101,7 +101,7 @@ function TotemUpdate()
 end
 
 function GiveTotemHunterCredits(ply, totem)
-	LANG.Msg(ply, "credit_h_all", {num = 1}) -- TODO localization
+	LANG.Msg(ply, "totem_credit_received", {num = 1})
 
 	ply:AddCredits(1)
 end
