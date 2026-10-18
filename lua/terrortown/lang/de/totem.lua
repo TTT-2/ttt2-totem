@@ -24,6 +24,7 @@ L["totem_other_terrorist"] = "Dies ist das Totem eines anderen Spielers"
 L["totem_own_totem"] = "Dies ist dein Totem"
 L["totem_teammate_totem"] = "Das ist das Totem eins Teamkollegen"
 L["totem_destroy_totem"] = "Zerstöre dieses Totem mit deinem Messer!"
+L["totem_credit_received"] = "Du hast 1 Ausrüstungspunkt erhalten, da du ein Totem zerstört hast!"
 
 L["weapon_thunter_knife_name"] = "Totemjäger Messer"
 

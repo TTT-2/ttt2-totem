@@ -24,6 +24,7 @@ L["totem_other_terrorist"] = "This is the Totem of another terrorist"
 L["totem_own_totem"] = "This is your Totem"
 L["totem_teammate_totem"] = "This is a teammate's Totem"
 L["totem_destroy_totem"] = "Destroy this Totem with your knife!"
+L["totem_credit_received"] = "You have received 1 credit for destroying a Totem!"
 
 L["weapon_thunter_knife_name"] = "Totemhunter's Knife"
 
